@@ -1,0 +1,271 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+:root {
+    --bg-dark: #0f0f16;
+    --bg-card: #1a1a2e;
+    --purple-main: #a855f7;
+    --purple-hover: #9333ea;
+    --purple-glow: rgba(168, 85, 247, 0.5);
+    --text-main: #f1f5f9; /* Lighter white */
+    --text-muted: #cbd5e1; /* Lighter gray for better visibility */
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+}
+
+.about-profile-img{
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid var(--purple-main);
+    box-shadow: 0 0 15px var(--purple-glow);
+}
+
+.purple-line {
+    width: 60px;
+    height: 4px;
+    background: var(--purple-main);
+    margin-bottom: 1rem;
+    border-radius: 2px;
+}
+
+/* Navbar Glassmorphism */
+.navbar {
+    background: rgba(15, 15, 22, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--text-main) !important;
+}
+
+.nav-link {
+    color: var(--text-muted) !important;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--purple-main) !important;
+}
+
+.navbar-toggler {
+    border-color: rgba(255,255,255,0.1);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.55)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Custom Utilities */
+.text-purple {
+    color: var(--purple-main) !important;
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+.text-secondary {
+    color: var(--text-muted) !important;
+}
+
+.text-gradient {
+    background: linear-gradient(to right, #a855f7, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+.bg-purple {
+    background-color: var(--purple-main) !important;
+}
+
+/* Buttons */
+.btn-purple {
+    background: linear-gradient(45deg, var(--purple-main), var(--purple-hover));
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 50px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-purple:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px var(--purple-glow);
+    color: white;
+}
+
+.btn-outline-purple {
+    border: 2px solid var(--purple-main);
+    color: var(--purple-main);
+    padding: 10px 25px;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    background: transparent;
+}
+
+.btn-outline-purple:hover {
+    background-color: var(--purple-main);
+    color: white;
+    box-shadow: 0 5px 15px var(--purple-glow);
+}
+
+/* Cards & Glassmorphism */
+.card {
+    background-color: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border-color: var(--purple-main);
+}
+
+.glass-panel {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 2rem;
+}
+
+/* Form Elements */
+.form-control-glass {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: var(--text-main) !important;
+    backdrop-filter: blur(5px);
+}
+
+.form-control-glass:focus {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: var(--purple-main) !important;
+    box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25);
+    color: var(--text-main) !important;
+}
+
+.form-control-glass::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Hero Section */
+.hero-section {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.about-section {
+    min-height: 80vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-bg-glow {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: var(--purple-main);
+    filter: blur(150px);
+    opacity: 0.2;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.hero-bg-glow.top-right {
+    top: -100px;
+    right: -100px;
+}
+
+.hero-bg-glow.bottom-left {
+    bottom: -100px;
+    left: -100px;
+}
+
+/* Footer */
+footer {
+    background-color: var(--bg-card);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-muted);
+}
+
+/* Social Links */
+.social-links a {
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+    display: inline-block;
+}
+
+.social-links a:hover {
+    color: var(--purple-main);
+    transform: translateY(-3px);
+}
+
+/* Status Badge Animation */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 20px;
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 50px;
+    color: var(--text-main);
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(5px);
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--purple-main);
+    border-radius: 50%;
+    margin-right: 10px;
+    position: relative;
+    box-shadow: 0 0 10px var(--purple-main);
+}
+
+.status-dot::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 1px solid var(--purple-main);
+    animation: ripple 1.5s infinite cubic-bezier(0, 0.2, 0.8, 1);
+}
+
+@keyframes ripple {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+    100% {
+        width: 25px;
+        height: 25px;
+        opacity: 0;
+    }
+}
+
