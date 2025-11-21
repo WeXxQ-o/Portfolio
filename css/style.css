@@ -6,8 +6,8 @@
     --purple-main: #a855f7;
     --purple-hover: #9333ea;
     --purple-glow: rgba(168, 85, 247, 0.5);
-    --text-main: #f1f5f9; /* Lighter white */
-    --text-muted: #cbd5e1; /* Lighter gray for better visibility */
+    --text-main: #f1f5f9; 
+    --text-muted: #cbd5e1; 
 }
 
 body {
