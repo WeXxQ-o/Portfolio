@@ -177,6 +177,24 @@ body {
     overflow: hidden;
 }
 
+.skills-section {
+    min-height: 80vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.projects-section {
+    min-height: 80vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-section {
+    min-height: 80vh;
+    position: relative;
+    overflow: hidden;
+}
+
 .hero-bg-glow {
     position: absolute;
     width: 300px;
