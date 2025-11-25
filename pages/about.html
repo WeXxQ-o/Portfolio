@@ -4,19 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="../css/style.css">
-    <title>Document</title>
+    <title>About | WeXxQ</title>
 </head>
 <body class="d-flex flex-column min-vh-100">
 
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="index.html">WeXxQ<span class="text-purple">.</span></a>
+            <a class="navbar-brand" href="../index.html">WeXxQ<span class="text-purple">.</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -32,35 +33,129 @@
         </div>
     </nav>
 
-    <section class="about-section py-5 mt-5 flex-grow-1 font-">
+    <section class="about-section py-5 mt-5 flex-grow-1">
         <div class="hero-bg-glow top-right"></div>
         <div class="hero-bg-glow bottom-left"></div>
         <div class="container">
-            <div class="row">
-                <div class="col-lg-3 offset-lg-1">
-                    <div class="d-flex justify-content-start mb-2">
-                        <img src="/img/zoro.jpg" class="about-profile-img shadow">
-                    </div>
+           <!-- status badge s animovanou bodkou -->
+            <div class="text-center mb-5">
+                <span class="status-badge">
+                    <span class="status-dot"></span>
+                    Get to Know Me
+                </span>
+                <h1 class="display-4 fw-bold">About <span class="text-gradient">Me</span></h1>
+            </div>
 
-                    <div>
-                        <h1 class="text-gradient">About me</h1>
-                        <div class="purple-line"></div>
-                        <p class="text-muted">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Molestias sunt sint commodi soluta enim dolor eum quis quia debitis, est natus ab obcaecati aut! Alias dolores tempora commodi suscipit dolorem!</p>
+            <!-- Profile Card Section -->
+            <div class="row g-5 align-items-start">
+                <div class="col-lg-4">
+                    <div class="about-card text-center">
+                        <div class="about-img-wrapper mx-auto mb-4">
+                            <img src="../img/luffy.jpg" class="about-profile-img" alt="Profile">
+                            <div class="about-img-border"></div>
+                        </div>
+                        <h3 class="mb-1">WeXxQ</h3>
+                        <p class="text-purple mb-3">Student Developer</p>
+                        <p class="text-muted small mb-4">Passionate about coding, problem-solving, and building things that make a difference.</p>
+                        
+                        <!-- Quick Info -->
+                        <div class="quick-info">
+                            <div class="quick-info-item">
+                                <i class="bi bi-geo-alt text-purple"></i>
+                                <span>Slovakia</span>
+                            </div>
+                            <div class="quick-info-item">
+                                <i class="bi bi-mortarboard text-purple"></i>
+                                <span>University Student</span>
+                            </div>
+                            <div class="quick-info-item">
+                                <i class="bi bi-code-slash text-purple"></i>
+                                <span>Aspiring Developer</span>
+                            </div>
+                        </div>
+
+                        <!-- Social Links -->
+                        <div class="social-links mt-4">
+                            <a href="https://github.com/WeXxQ-o" target="_blank" class="social-btn">
+                                <i class="bi bi-github"></i>
+                            </a>
+                            <a href="#" class="social-btn">
+                                <i class="bi bi-linkedin"></i>
+                            </a>
+                            <a href="#" class="social-btn">
+                                <i class="bi bi-discord"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-6 offset-lg-1">
-                    <h2 class="text-gradient">Interests</h2>
-                    <p class="text-muted">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Doloremque perferendis quo aliquid deserunt laudantium repudiandae dicta autem, est dolor distinctio et quaerat! Consequatur alias laborum magnam ratione eveniet neque ut.</p>
-                    <h2 class="text-gradient mt-4">Background</h2>
-                    <h5 class="text-main">Education</h5>
-                    <ul class="text-muted">
-                        <li>Constantine the Philosopher University in Nitra, Bachelor of Applied Informatics (2025 - present)</li>
-                        <li>The Secondary Technical school of Wood-working, Computer Network Mechanic (2021 - 2025)</li>
-                    </ul>
-                    <h5 class="text-main mt-3">Work Experience</h5>
-                    <ul class="text-muted">
-                        <li> None for now </li>
-                    </ul>
+
+                <div class="col-lg-8">
+                    <!-- Interests Section -->
+                    <div class="about-content-card mb-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="about-icon me-3">
+                                <i class="bi bi-heart"></i>
+                            </div>
+                            <h4 class="mb-0">Interests & Hobbies</h4>
+                        </div>
+                        <p class="text-muted">When I'm not coding, you'll find me exploring new technologies, watching anime, playing video games, or diving deep into computer science concepts. I'm always eager to learn something new and push my boundaries.</p>
+                        <div class="interest-tags">
+                            <span class="interest-tag"><i class="bi bi-controller me-1"></i>Gaming</span>
+                            <span class="interest-tag"><i class="bi bi-film me-1"></i>Anime</span>
+                            <span class="interest-tag"><i class="bi bi-code-square me-1"></i>Coding</span>
+                            <span class="interest-tag"><i class="bi bi-lightbulb me-1"></i>Learning</span>
+                            <span class="interest-tag"><i class="bi bi-music-note-beamed me-1"></i>Music</span>
+                        </div>
+                    </div>
+
+                    <!-- Education Section -->
+                    <div class="about-content-card mb-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="about-icon me-3">
+                                <i class="bi bi-mortarboard"></i>
+                            </div>
+                            <h4 class="mb-0">Education</h4>
+                        </div>
+                        
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <div class="d-flex justify-content-between align-items-start flex-wrap">
+                                        <h5 class="mb-1">Bachelor of Applied Informatics</h5>
+                                        <span class="timeline-badge">2025 - Present</span>
+                                    </div>
+                                    <p class="text-purple mb-1">Constantine the Philosopher University in Nitra</p>
+                                    <p class="text-muted small mb-0">Currently pursuing my degree in Applied Informatics, focusing on software development and computer science fundamentals.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <div class="d-flex justify-content-between align-items-start flex-wrap">
+                                        <h5 class="mb-1">Computer Network Mechanic</h5>
+                                        <span class="timeline-badge">2021 - 2025</span>
+                                    </div>
+                                    <p class="text-purple mb-1">Secondary Technical School of Wood-working</p>
+                                    <p class="text-muted small mb-0">Completed technical education with focus on computer networks and hardware.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Work Experience Section -->
+                    <div class="about-content-card mb-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="about-icon me-3">
+                                <i class="bi bi-briefcase"></i>
+                            </div>
+                            <h4 class="mb-0">Work Experience</h4>
+                        </div>
+                        <div class="glass-panel text-center py-4">
+                            <i class="bi bi-rocket-takeoff text-purple" style="font-size: 2rem;"></i>
+                            <p class="text-muted mt-3 mb-0">Currently focused on learning and building my skills.<br>Open to internships and junior positions!</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -73,8 +168,8 @@
     </footer>
 
     
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-   <script src="js/script.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+   <script src="../js/script.js"></script>
     
 </body>
 </html>

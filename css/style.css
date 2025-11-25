@@ -1,5 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+/* import JetBrains Mono fontu */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
 
+/* CSS premenné pre farby - takto sa to ľahšie mení */
 :root {
     --bg-dark: #0f0f16;
     --bg-card: #1a1a2e;
@@ -10,13 +12,15 @@
     --text-muted: #cbd5e1; 
 }
 
+/* základné nastavenia body */
 body {
     background-color: var(--bg-dark);
     color: var(--text-main);
-    font-family: 'jetbrains mono', sans-serif;
+    font-family: 'JetBrains Mono', monospace;
     overflow-x: hidden;
 }
 
+/* profilový obrázok s kruhom a glowom */
 .about-profile-img{
     width: 250px;
     height: 250px;
@@ -26,6 +30,7 @@ body {
     box-shadow: 0 0 15px var(--purple-glow);
 }
 
+/* fialová čiarka pod nadpismi */
 .purple-line {
     width: 60px;
     height: 4px;
@@ -34,7 +39,8 @@ body {
     border-radius: 2px;
 }
 
-/* Navbar Glassmorphism */
+/* === NAVBAR === */
+/* navbar s glassmorphism efektom */
 .navbar {
     background: rgba(15, 15, 22, 0.8);
     backdrop-filter: blur(10px);
@@ -65,7 +71,8 @@ body {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.55)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
-/* Custom Utilities */
+/* === VLASTNÉ UTILITY TRIEDY === */
+/* fialová farba textu */
 .text-purple {
     color: var(--purple-main) !important;
 }
@@ -78,6 +85,7 @@ body {
     color: var(--text-muted) !important;
 }
 
+/* gradient text - purple na ružovú */
 .text-gradient {
     background: linear-gradient(to right, #a855f7, #ec4899);
     -webkit-background-clip: text;
@@ -90,7 +98,8 @@ body {
     background: linear-gradient(90deg, #7b2cbf, #9b4dff) !important;
 }
 
-/* Buttons */
+/* === BUTTONY === */
+/* fialové tlačidlo s gradientom */
 .btn-purple {
     background: linear-gradient(45deg, var(--purple-main), var(--purple-hover));
     color: white;
@@ -106,6 +115,7 @@ body {
     color: white;
 }
 
+/* outline verzia - len border */
 .btn-outline-purple {
     border: 2px solid var(--purple-main);
     color: var(--purple-main);
@@ -121,7 +131,8 @@ body {
     box-shadow: 0 5px 15px var(--purple-glow);
 }
 
-/* Cards & Glassmorphism */
+/* === KARTY & GLASSMORPHISM === */
+/* základná karta s hover efektom */
 .card {
     background-color: var(--bg-card);
     border: 1px solid rgba(255, 255, 255, 0.05);
@@ -135,6 +146,7 @@ body {
     border-color: var(--purple-main);
 }
 
+/* sklenený panel s blur efektom */
 .glass-panel {
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(10px);
@@ -143,7 +155,8 @@ body {
     padding: 2rem;
 }
 
-/* Form Elements */
+/* === FORMULÁROVÉ PRVKY === */
+/* input field so skleneným efektom */
 .form-control-glass {
     background: rgba(255, 255, 255, 0.1) !important;
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
@@ -162,7 +175,8 @@ body {
     color: rgba(255, 255, 255, 0.5);
 }
 
-/* Hero Section */
+/* === SEKCIE === */
+/* hlavná hero sekcia */
 .hero-section {
     min-height: 80vh;
     display: flex;
@@ -198,6 +212,7 @@ body {
     overflow: hidden;
 }
 
+/* rozmazané fialové glowy na pozadí */
 .hero-bg-glow {
     position: absolute;
     width: 300px;
@@ -219,14 +234,14 @@ body {
     left: -100px;
 }
 
-/* Footer */
+/* === FOOTER === */
 footer {
     background-color: var(--bg-card);
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     color: var(--text-muted);
 }
 
-/* Social Links */
+/* === SOCIAL LINKY === */
 .social-links a {
     color: var(--text-muted);
     font-size: 1.5rem;
@@ -239,7 +254,8 @@ footer {
     transform: translateY(-3px);
 }
 
-/* Status Badge Animation */
+/* === STATUS BADGE === */
+/* badge s animovanou bodkou */
 .status-badge {
     display: inline-flex;
     align-items: center;
@@ -277,6 +293,7 @@ footer {
     animation: ripple 1.5s infinite cubic-bezier(0, 0.2, 0.8, 1);
 }
 
+/* animácia vlniek okolo bodky */
 @keyframes ripple {
     0% {
         width: 0;
@@ -290,6 +307,8 @@ footer {
     }
 }
 
+/* === SKILLS === */
+/* položka zručnosti */
 .skill-item {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -298,6 +317,7 @@ footer {
     transition: all 0.3s ease;
 }
 
+/* hover efekt pre skill */
 .skill-item:hover {
     background: rgba(255, 255, 255, 0.08);
     transform: translateY(-2px);
@@ -317,3 +337,396 @@ footer {
     border-radius: 10px;
 }
 
+/* vylepšené skill karty */
+.skill-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.3s ease;
+}
+
+.skill-card:hover {
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateY(-4px);
+    border-color: var(--purple-main);
+    box-shadow: 0 10px 40px rgba(168, 85, 247, 0.15);
+}
+
+.skill-card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+/* ikona zručnosti */
+.skill-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-right: 16px;
+    transition: transform 0.3s ease;
+}
+
+.skill-card:hover .skill-icon {
+    transform: scale(1.1);
+}
+
+/* farby pre jednotlivé jazyky/technológie */
+.skill-icon.python {
+    background: linear-gradient(135deg, rgba(55, 118, 171, 0.2), rgba(255, 212, 59, 0.2));
+    color: #3776ab;
+}
+
+.skill-icon.javascript {
+    background: rgba(247, 223, 30, 0.15);
+    color: #f7df1e;
+}
+
+.skill-icon.c-lang {
+    background: rgba(85, 85, 85, 0.2);
+    color: #a8b9cc;
+}
+
+.skill-icon.html {
+    background: rgba(227, 79, 38, 0.15);
+    color: #e34f26;
+}
+
+.skill-icon.css {
+    background: rgba(21, 114, 182, 0.15);
+    color: #1572b6;
+}
+
+.skill-icon.bootstrap {
+    background: rgba(121, 82, 179, 0.15);
+    color: #7952b3;
+}
+
+.skill-info {
+    flex: 1;
+}
+
+.skill-percentage {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--purple-main);
+}
+
+.skill-progress {
+    height: 8px;
+    margin-bottom: 12px;
+}
+
+.skill-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* malé tagy pri skilloch */
+.skill-tag {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: 20px;
+    color: var(--purple-main);
+}
+
+/* Skill Category Icon */
+.skill-category-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--purple-main), var(--purple-hover));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: white;
+}
+
+/* === NÁSTROJE === */
+/* karta pre nástroj */
+.tool-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.tool-card:hover {
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateY(-4px);
+    border-color: var(--purple-main);
+}
+
+.tool-card i {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    color: var(--purple-main);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.tool-card span {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+/* === LEARNING === */
+/* badge pre to čo sa práve učím */
+.learning-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 30px;
+    color: var(--text-main);
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.learning-badge:hover {
+    background: rgba(168, 85, 247, 0.2);
+    transform: translateY(-2px);
+}
+
+.learning-badge i {
+    font-size: 1.2rem;
+    color: var(--purple-main);
+}
+
+/* === ABOUT PAGE === */
+/* karta s profil info */
+.about-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 30px;
+    position: sticky;
+    top: 100px;
+}
+
+.about-img-wrapper {
+    position: relative;
+    width: 180px;
+    height: 180px;
+}
+
+.about-card .about-profile-img {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid var(--purple-main);
+    box-shadow: 0 0 30px var(--purple-glow);
+    position: relative;
+    z-index: 1;
+}
+
+.about-img-border {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border: 2px dashed rgba(168, 85, 247, 0.3);
+    border-radius: 50%;
+    animation: spin 20s linear infinite;
+}
+
+/* rotujúci border okolo profilovky */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* rýchle info o mne */
+.quick-info {
+    text-align: left;
+}
+
+.quick-info-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.quick-info-item:last-child {
+    border-bottom: none;
+}
+
+.quick-info-item i {
+    font-size: 1.1rem;
+}
+
+/* social media buttony - kruhy */
+.social-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-muted);
+    margin: 0 5px;
+    transition: all 0.3s ease;
+}
+
+.social-btn:hover {
+    background: var(--purple-main);
+    border-color: var(--purple-main);
+    color: white;
+    transform: translateY(-3px);
+}
+
+.about-content-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.about-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--purple-main), var(--purple-hover));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: white;
+}
+
+.interest-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* tagy pre záujmy */
+.interest-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: 25px;
+    color: var(--text-main);
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+
+.interest-tag:hover {
+    background: rgba(168, 85, 247, 0.2);
+    transform: translateY(-2px);
+}
+
+/* === TIMELINE === */
+/* časová os */
+.timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+/* vertikálna čiara timeline */
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 5px;
+    bottom: 5px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--purple-main), transparent);
+}
+
+.timeline-item {
+    position: relative;
+    padding-bottom: 25px;
+}
+
+.timeline-item:last-child {
+    padding-bottom: 0;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -26px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--purple-main);
+    border: 3px solid var(--bg-dark);
+    box-shadow: 0 0 10px var(--purple-glow);
+}
+
+.timeline-content {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    padding: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.timeline-badge {
+    font-size: 0.75rem;
+    padding: 4px 12px;
+    background: rgba(168, 85, 247, 0.15);
+    border-radius: 20px;
+    color: var(--purple-main);
+    white-space: nowrap;
+}
+
+/* === FUN FACTS === */
+/* kartička so zaujímavým faktom */
+.fun-fact-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.fun-fact-card:hover {
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateY(-3px);
+    border-color: var(--purple-main);
+}
+
+.fun-fact-number {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--purple-main);
+    line-height: 1;
+    margin-bottom: 5px;
+}
+
+.fun-fact-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}

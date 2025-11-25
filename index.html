@@ -1,22 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- základné meta tagy -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- JetBrains Mono font - môj obľúbený monospace -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap"/>
+    <!-- Bootstrap 5 pre responsivitu -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- vlastné štýly -->
     <link rel="stylesheet" href="css/style.css">
-    <title>HOME | WeXxQ</title>
+    <title>Home | WeXxQ</title>
 </head>
 <body class="d-flex flex-column min-vh-100">
 
+    <!-- navigačná lišta - fixnutá hore -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
+            <!-- logo s fialovou bodkou -->
             <a class="navbar-brand" href="index.html">WeXxQ<span class="text-purple">.</span></a>
+            <!-- hamburger menu pre mobil -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- navigačné linky zarovnané vpravo -->
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="pages/about.html">About</a></li>
@@ -28,18 +36,22 @@
         </div>
     </nav>
 
+    <!-- hlavná hero sekcia s úvodným textom -->
     <section class="hero-section flex-grow-1 text-center">
+        <!-- fialové glowy na pozadí pre efekt -->
         <div class="hero-bg-glow top-right"></div>
         <div class="hero-bg-glow bottom-left"></div>
         
         <div class="container position-relative z-1">
            <div class="container position-relative z-1">
 
+            <!-- status badge s animovanou bodkou -->
             <div class="status-badge">
                 <span class="status-dot"></span>
                 Open to Opportunities
             </div>
             
+            <!-- hlavný nadpis s gradientom -->
             <h1 class="display-2 fw-bold mb-4">
                 Building Digital <br>
                 <span class="text-gradient">Experiences</span>
@@ -47,11 +59,13 @@
             <p class="lead mb-5 text-muted mx-auto" style="max-width: 600px;">
                 I'm a Student Developer passionate about creating modern web applications with HTML, CSS, JavaScript, Python, and C.
             </p>
+            <!-- tlačidlá pre akcie -->
             <div class="d-flex justify-content-center gap-3">
                 <a href="pages/projects.html" class="btn btn-purple btn-lg px-5">View Work</a>
                 <a href="pages/contact.html" class="btn btn-outline-purple btn-lg px-5">Contact Me</a>
             </div>
             
+            <!-- social media linky -->
             <div class="mt-5 social-links">
                 <a href="#" class="mx-3"><i class="fab fa-github"></i></a>
                 <a href="#" class="mx-3"><i class="fab fa-linkedin"></i></a>
@@ -60,14 +74,15 @@
         </div>
     </section>
 
+    <!-- pätička stránky -->
     <footer class="py-4 mt-auto">
         <div class="container text-center">
             <p class="m-0 small">&copy; 2025 Student Developer. Made with <span class="text-purple">&hearts;</span></p>
         </div>
     </footer>
 
-    
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- skripty na konci kvôli performance -->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
    <script src="js/script.js"></script> 
 </body>
 </html>
