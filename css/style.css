@@ -13,7 +13,7 @@
 body {
     background-color: var(--bg-dark);
     color: var(--text-main);
-    font-family: 'Poppins', sans-serif;
+    font-family: 'jetbrains mono', sans-serif;
     overflow-x: hidden;
 }
 
@@ -87,7 +87,7 @@ body {
 }
 
 .bg-purple {
-    background-color: var(--purple-main) !important;
+    background: linear-gradient(90deg, #7b2cbf, #9b4dff) !important;
 }
 
 /* Buttons */
@@ -175,12 +175,15 @@ body {
     min-height: 80vh;
     position: relative;
     overflow: hidden;
+    font-family: 'Arial', Courier,Arial, Helvetica, monospace;
 }
 
 .skills-section {
     min-height: 80vh;
     position: relative;
     overflow: hidden;
+    padding: 100px 0 50px;
+    min-height: calc(100vh - 200px);
 }
 
 .projects-section {
@@ -285,5 +288,32 @@ footer {
         height: 25px;
         opacity: 0;
     }
+}
+
+.skill-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.skill-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+}
+
+.skill-item i {
+    font-size: 24px;
+    color: #7b2cbf;
+}
+
+.progress {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 10px;
+}
+
+.progress-bar {
+    border-radius: 10px;
 }
 
