@@ -81,10 +81,6 @@ body {
     color: var(--text-muted) !important;
 }
 
-.text-secondary {
-    color: var(--text-muted) !important;
-}
-
 /* gradient text - purple na ružovú */
 .text-gradient {
     background: linear-gradient(to right, #a855f7, #ec4899);
@@ -354,7 +350,7 @@ footer {
     border-radius: 10px;
 }
 
-/* vylepšené skill karty */
+/* skill karty */
 .skill-card {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.1);
