@@ -189,7 +189,6 @@ body {
     min-height: 80vh;
     position: relative;
     overflow: hidden;
-    font-family: 'Arial', Courier,Arial, Helvetica, monospace;
 }
 
 .skills-section {
@@ -203,13 +202,30 @@ body {
 .projects-section {
     min-height: 80vh;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
+    padding-top: 100px;
+}
+
+.projects-section .container {
+    position: relative;
+    z-index: 1;
 }
 
 .contact-section {
     min-height: 80vh;
     position: relative;
     overflow: hidden;
+    padding-top: 100px;
+}
+
+.contact-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* veľká ikona */
+.icon-xl {
+    font-size: 5rem;
 }
 
 /* rozmazané fialové glowy na pozadí */
@@ -219,19 +235,20 @@ body {
     height: 300px;
     background: var(--purple-main);
     filter: blur(150px);
-    opacity: 0.2;
+    opacity: 0.3;
     border-radius: 50%;
     z-index: -1;
+    pointer-events: none;
 }
 
 .hero-bg-glow.top-right {
-    top: -100px;
-    right: -100px;
+    top: 50px;
+    right: -50px;
 }
 
 .hero-bg-glow.bottom-left {
-    bottom: -100px;
-    left: -100px;
+    bottom: 50px;
+    left: -50px;
 }
 
 /* === FOOTER === */
@@ -698,35 +715,4 @@ footer {
     border-radius: 20px;
     color: var(--purple-main);
     white-space: nowrap;
-}
-
-/* === FUN FACTS === */
-/* kartička so zaujímavým faktom */
-.fun-fact-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 20px;
-    text-align: center;
-    transition: all 0.3s ease;
-}
-
-.fun-fact-card:hover {
-    background: rgba(255, 255, 255, 0.06);
-    transform: translateY(-3px);
-    border-color: var(--purple-main);
-}
-
-.fun-fact-number {
-    display: block;
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--purple-main);
-    line-height: 1;
-    margin-bottom: 5px;
-}
-
-.fun-fact-label {
-    font-size: 0.8rem;
-    color: var(--text-muted);
 }
