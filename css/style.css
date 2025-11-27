@@ -255,7 +255,7 @@ body {
 }
 
 .question {
-    background-color: var(--bg-card);
+    background-color: var(--bg-dark);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 12px;
     padding: 18px 50px 18px 45px;
@@ -319,7 +319,7 @@ body {
 }
 
 .accordion .answer {
-    background-color: var(--bg-card);
+    background-color: var(--bg-main);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-top: none;
     border-radius: 0 0 12px 12px;
@@ -455,9 +455,30 @@ body {
 }
 
 /* === FOOTER === */
-footer {
+footer, .footer-section {
     background-color: var(--bg-card);
     border-top: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-muted);
+}
+
+.footer-links li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--purple-main);
+}
+
+.footer-contact li {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
     color: var(--text-muted);
 }
 
