@@ -207,6 +207,54 @@ body {
     z-index: 1;
 }
 
+/* FAQ sekcia */
+
+.faq-section {
+    min-height: 80vh;
+    position: relative;
+    overflow: visible;
+    padding-top: 100px;
+}
+.faq-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+.question{
+    background-color: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.question:hover {
+    background-color: rgba(168, 85, 247, 0.1);
+}
+
+.accordion .answer {
+    background-color: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: none;
+}
+.question::before{
+    content: '+ ';
+    color: var(--purple-main);
+}
+.accordion.active .answer {
+    display: block;
+}
+.accordion.active .question::before{
+    content: '- ';
+    color: var(--purple-main);
+}
+
+/* Contact sekcia */
 .contact-section {
     min-height: 80vh;
     position: relative;
