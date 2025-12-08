@@ -1,4 +1,5 @@
 // keď sa stránka načíta
+// <!-- kreatívny bod -->
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Portfolio loaded! 🚀');
     
@@ -35,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // <!-- kreatívny bod -->
-    // Alert dismiss funkcionalita - vlastná implementácia
+    // Alert dismiss funkcionalita
     const alertCloseButtons = document.querySelectorAll('.alert .btn-close');
     alertCloseButtons.forEach(function(button) {
         button.addEventListener('click', function() {

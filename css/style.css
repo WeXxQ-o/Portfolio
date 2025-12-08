@@ -1,7 +1,7 @@
 /* import JetBrains Mono fontu */
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
 
-/* CSS premenné pre farby - takto sa to ľahšie mení */
+/* CSS variables for colors - easier to change this way */
 :root {
     --bg-dark: #0f0f16;
     --bg-card: #1a1a2e;
@@ -12,7 +12,7 @@
     --text-muted: #cbd5e1; 
 }
 
-/* základné nastavenia body */
+/* basic body settings */
 body {
     background-color: var(--bg-dark);
     color: var(--text-main);
@@ -20,7 +20,7 @@ body {
     overflow-x: hidden;
 }
 
-/* profilový obrázok s kruhom a glowom */
+/* profile image with circle and glow */
 .about-profile-img{
     width: 250px;
     height: 250px;
@@ -30,7 +30,7 @@ body {
     box-shadow: 0 0 15px var(--purple-glow);
 }
 
-/* fialová čiarka pod nadpismi */
+/* purple line under headings */
 .purple-line {
     width: 60px;
     height: 4px;
@@ -40,7 +40,7 @@ body {
 }
 
 /* === NAVBAR === */
-/* navbar s glassmorphism efektom */
+/* navbar with glassmorphism effect */
 .navbar {
     background: rgba(15, 15, 22, 0.8);
     backdrop-filter: blur(10px);
@@ -51,6 +51,19 @@ body {
     font-weight: 700;
     font-size: 1.5rem;
     color: var(--text-main) !important;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* logo obrázok v navbare */
+.navbar-logo {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--purple-main);
+    box-shadow: 0 0 10px var(--purple-glow);
 }
 
 .nav-link {
@@ -78,13 +91,13 @@ body {
     height: 30px;
 }
 
-/* Navbar collapse - vlastné štýly pre hamburger menu */
+/* Navbar collapse - custom styles for hamburger menu */
 .navbar-collapse {
     display: flex;
     flex-basis: auto;
 }
 
-/* Responzívne hamburger menu */
+/* Responsive hamburger menu */
 @media (max-width: 991.98px) {
     .navbar-toggler {
         display: block;
@@ -121,8 +134,8 @@ body {
     }
 }
 
-/* === VLASTNÉ UTILITY TRIEDY === */
-/* fialová farba textu */
+/* === CUSTOM UTILITY CLASSES === */
+/* purple text color */
 .text-purple {
     color: var(--purple-main) !important;
 }
@@ -131,7 +144,7 @@ body {
     color: var(--text-muted) !important;
 }
 
-/* gradient text - purple na ružovú */
+/* gradient text - purple to pink */
 .text-gradient {
     background: linear-gradient(to right, #a855f7, #ec4899);
     -webkit-background-clip: text;
@@ -144,8 +157,8 @@ body {
     background: linear-gradient(90deg, #7b2cbf, #9b4dff) !important;
 }
 
-/* === BUTTONY === */
-/* fialové tlačidlo s gradientom */
+/* === BUTTONS === */
+/* purple button with gradient */
 .btn-purple {
     background: linear-gradient(45deg, var(--purple-main), var(--purple-hover));
     color: white;
@@ -161,7 +174,7 @@ body {
     color: white;
 }
 
-/* outline verzia - len border */
+/* outline version - border only */
 .btn-outline-purple {
     border: 2px solid var(--purple-main);
     color: var(--purple-main);
@@ -177,8 +190,8 @@ body {
     box-shadow: 0 5px 15px var(--purple-glow);
 }
 
-/* === KARTY & GLASSMORPHISM === */
-/* základná karta s hover efektom */
+/* === CARDS & GLASSMORPHISM === */
+/* basic card with hover effect */
 .card {
     background-color: var(--bg-card);
     border: 1px solid rgba(255, 255, 255, 0.05);
@@ -192,7 +205,7 @@ body {
     border-color: var(--purple-main);
 }
 
-/* sklenený panel s blur efektom */
+/* glass panel with blur effect */
 .glass-panel {
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(10px);
@@ -201,8 +214,8 @@ body {
     padding: 2rem;
 }
 
-/* === FORMULÁROVÉ PRVKY === */
-/* input field so skleneným efektom */
+/* === FORM ELEMENTS === */
+/* input field with glass effect */
 .form-control-glass {
     background: rgba(255, 255, 255, 0.1) !important;
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
@@ -221,8 +234,8 @@ body {
     color: rgba(255, 255, 255, 0.5);
 }
 
-/* === SEKCIE === */
-/* hlavná hero sekcia */
+/* === SECTIONS === */
+/* main hero section */
 .hero-section {
     min-height: 80vh;
     display: flex;
@@ -463,7 +476,7 @@ body {
     opacity: 0.15;
 }
 
-/* Contact sekcia */
+/* Contact section */
 .contact-section {
     min-height: 80vh;
     position: relative;
@@ -476,12 +489,12 @@ body {
     z-index: 1;
 }
 
-/* veľká ikona */
+/* large icon */
 .icon-xl {
     font-size: 5rem;
 }
 
-/* rozmazané fialové glowy na pozadí */
+/* blurred purple glows in background */
 .hero-bg-glow {
     position: absolute;
     width: 300px;
@@ -546,7 +559,7 @@ footer, .footer-section {
 }
 
 /* === STATUS BADGE === */
-/* badge s animovanou bodkou */
+/* badge with animated dot */
 .status-badge {
     display: inline-flex;
     align-items: center;
@@ -584,7 +597,7 @@ footer, .footer-section {
     animation: ripple 1.5s infinite cubic-bezier(0, 0.2, 0.8, 1);
 }
 
-/* animácia vlniek okolo bodky */
+/* ripple animation around dot */
 @keyframes ripple {
     0% {
         width: 0;
