@@ -1,7 +1,7 @@
 /* import JetBrains Mono fontu */
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
 
-/* CSS variables for colors - easier to change this way */
+/* CSS premenné pre farby - jednoduchšia správa */
 :root {
     --bg-dark: #0f0f16;
     --bg-card: #1a1a2e;
@@ -12,7 +12,7 @@
     --text-muted: #cbd5e1; 
 }
 
-/* basic body settings */
+/* základné nastavenia body */
 body {
     background-color: var(--bg-dark);
     color: var(--text-main);
@@ -20,7 +20,7 @@ body {
     overflow-x: hidden;
 }
 
-/* profile image with circle and glow */
+/* profilový obrázok s kruhovým tvarom a žiarou */
 .about-profile-img{
     width: 250px;
     height: 250px;
@@ -30,7 +30,7 @@ body {
     box-shadow: 0 0 15px var(--purple-glow);
 }
 
-/* purple line under headings */
+/* fialová čiara pod nadpismi */
 .purple-line {
     width: 60px;
     height: 4px;
@@ -40,7 +40,7 @@ body {
 }
 
 /* === NAVBAR === */
-/* navbar with glassmorphism effect */
+/* navbar s glassmorphism efektom */
 .navbar {
     background: rgba(15, 15, 22, 0.8);
     backdrop-filter: blur(10px);
@@ -91,13 +91,13 @@ body {
     height: 30px;
 }
 
-/* Navbar collapse - custom styles for hamburger menu */
+/* Navbar collapse - vlastné štýly pre hamburger menu */
 .navbar-collapse {
     display: flex;
     flex-basis: auto;
 }
 
-/* Responsive hamburger menu */
+/* Responzívne hamburger menu */
 @media (max-width: 991.98px) {
     .navbar-toggler {
         display: block;
@@ -134,8 +134,8 @@ body {
     }
 }
 
-/* === CUSTOM UTILITY CLASSES === */
-/* purple text color */
+/* === VLASTNÉ UTILITY TRIEDY === */
+/* fialová farba textu */
 .text-purple {
     color: var(--purple-main) !important;
 }
@@ -144,7 +144,7 @@ body {
     color: var(--text-muted) !important;
 }
 
-/* gradient text - purple to pink */
+/* gradientový text - fialová do ružovej */
 .text-gradient {
     background: linear-gradient(to right, #a855f7, #ec4899);
     -webkit-background-clip: text;
@@ -157,8 +157,8 @@ body {
     background: linear-gradient(90deg, #7b2cbf, #9b4dff) !important;
 }
 
-/* === BUTTONS === */
-/* purple button with gradient */
+/* === TLAČIDLÁ === */
+/* fialové tlačidlo s gradientom */
 .btn-purple {
     background: linear-gradient(45deg, var(--purple-main), var(--purple-hover));
     color: white;
@@ -174,7 +174,7 @@ body {
     color: white;
 }
 
-/* outline version - border only */
+/* obrysová verzia - iba okraj */
 .btn-outline-purple {
     border: 2px solid var(--purple-main);
     color: var(--purple-main);
@@ -190,8 +190,8 @@ body {
     box-shadow: 0 5px 15px var(--purple-glow);
 }
 
-/* === CARDS & GLASSMORPHISM === */
-/* basic card with hover effect */
+/* === KARTY & GLASSMORPHISM === */
+/* základná karta s hover efektom */
 .card {
     background-color: var(--bg-card);
     border: 1px solid rgba(255, 255, 255, 0.05);
@@ -205,7 +205,7 @@ body {
     border-color: var(--purple-main);
 }
 
-/* glass panel with blur effect */
+/* sklenený panel s efektom rozmazania */
 .glass-panel {
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(10px);
@@ -214,8 +214,8 @@ body {
     padding: 2rem;
 }
 
-/* === FORM ELEMENTS === */
-/* input field with glass effect */
+/* === FORMULÁROVÉ PRVKY === */
+/* vstupné pole so skleneným efektom */
 .form-control-glass {
     background: rgba(255, 255, 255, 0.1) !important;
     border: 1px solid rgba(255, 255, 255, 0.2) !important;
@@ -234,14 +234,19 @@ body {
     color: rgba(255, 255, 255, 0.5);
 }
 
-/* === SECTIONS === */
-/* main hero section */
+/* === SEKCIE === */
+/* hlavná hero sekcia */
 .hero-section {
     min-height: 80vh;
     display: flex;
     align-items: center;
     position: relative;
     overflow: hidden;
+}
+
+/* popis v hero sekcii */
+.hero-description {
+    max-width: 600px;
 }
 
 .about-section {
@@ -284,7 +289,7 @@ body {
     z-index: 1;
 }
 
-/* FAQ Category Headers */
+/* hlavičky FAQ kategórií */
 .faq-category {
     margin-top: 1rem;
 }
@@ -310,7 +315,7 @@ body {
     font-size: 1.2rem;
 }
 
-/* Accordion Styles */
+/* štýly pre akordeón */
 .accordion {
     margin-bottom: 15px;
     border-radius: 12px;
@@ -437,7 +442,7 @@ body {
     color: var(--purple-main);
 }
 
-/* Tech Tags in FAQ */
+/* technologické štítky v FAQ */
 .tech-tags {
     display: flex;
     flex-wrap: wrap;
@@ -460,13 +465,13 @@ body {
     transform: translateY(-2px);
 }
 
-/* FAQ CTA Section */
+/* FAQ výzva k akcii sekcia */
 .faq-cta .glass-panel {
     background: rgba(168, 85, 247, 0.05);
     border: 1px solid rgba(168, 85, 247, 0.2);
 }
 
-/* Center glow for FAQ */
+/* stredová žiara pre FAQ */
 .hero-bg-glow.center-glow {
     top: 50%;
     left: 50%;
@@ -476,7 +481,7 @@ body {
     opacity: 0.15;
 }
 
-/* Contact section */
+/* Kontaktná sekcia */
 .contact-section {
     min-height: 80vh;
     position: relative;
@@ -489,12 +494,12 @@ body {
     z-index: 1;
 }
 
-/* large icon */
+/* veľká ikona */
 .icon-xl {
     font-size: 5rem;
 }
 
-/* blurred purple glows in background */
+/* rozmazané fialové žiary na pozadí */
 .hero-bg-glow {
     position: absolute;
     width: 300px;
@@ -559,7 +564,7 @@ footer, .footer-section {
 }
 
 /* === STATUS BADGE === */
-/* badge with animated dot */
+/* odznak s animovanou bodkou */
 .status-badge {
     display: inline-flex;
     align-items: center;
@@ -597,7 +602,7 @@ footer, .footer-section {
     animation: ripple 1.5s infinite cubic-bezier(0, 0.2, 0.8, 1);
 }
 
-/* ripple animation around dot */
+/* vlnková animácia okolo bodky */
 @keyframes ripple {
     0% {
         width: 0;
@@ -621,7 +626,7 @@ footer, .footer-section {
     transition: all 0.3s ease;
 }
 
-/* hover efekt pre skill */
+/* hover efekt pre zručnosť */
 .skill-item:hover {
     background: rgba(255, 255, 255, 0.08);
     transform: translateY(-2px);
@@ -732,7 +737,7 @@ footer, .footer-section {
     flex-wrap: wrap;
 }
 
-/* malé tagy pri skilloch */
+/* malé tagy pri zručnostiach */
 .skill-tag {
     font-size: 0.75rem;
     padding: 4px 10px;
@@ -742,7 +747,7 @@ footer, .footer-section {
     color: var(--purple-main);
 }
 
-/* Skill Category Icon */
+/* ikona kategórie zručností */
 .skill-category-icon {
     width: 50px;
     height: 50px;
@@ -791,8 +796,8 @@ footer, .footer-section {
     color: var(--text-muted);
 }
 
-/* === LEARNING === */
-/* badge pre to čo sa práve učím */
+/* === UČENIE === */
+/* odznak pre to čo sa práve učím */
 .learning-badge {
     display: inline-flex;
     align-items: center;
@@ -815,8 +820,8 @@ footer, .footer-section {
     color: var(--purple-main);
 }
 
-/* === ABOUT PAGE === */
-/* karta s profil info */
+/* === STRÁNKA O MNE === */
+/* karta s profilovými informáciami */
 .about-card {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -883,7 +888,7 @@ footer, .footer-section {
     font-size: 1.1rem;
 }
 
-/* social media buttony - kruhy */
+/* tlačidlá sociálnych sietí - kruhy */
 .social-btn {
     display: inline-flex;
     align-items: center;
@@ -931,7 +936,7 @@ footer, .footer-section {
     margin-top: 15px;
 }
 
-/* tagy pre záujmy */
+/* štítky pre záujmy */
 .interest-tag {
     display: inline-flex;
     align-items: center;
@@ -949,8 +954,8 @@ footer, .footer-section {
     transform: translateY(-2px);
 }
 
-/* === TIMELINE === */
-/* časová os */
+/* === ČASOVÁ OS === */
+/* hlavná časová os */
 .timeline {
     position: relative;
     padding-left: 30px;
@@ -1004,8 +1009,8 @@ footer, .footer-section {
     white-space: nowrap;
 }
 
-/* === PROJECTS === */
-/* Project Card Styles */
+/* === PROJEKTY === */
+/* štýly pre projektové karty */
 .project-card {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1025,7 +1030,7 @@ footer, .footer-section {
     border-color: rgba(168, 85, 247, 0.3);
 }
 
-/* Project Badge */
+/* odznak projektu */
 .project-badge {
     position: absolute;
     top: 20px;
@@ -1042,7 +1047,7 @@ footer, .footer-section {
     box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
 }
 
-/* Project Preview */
+/* náhľad projektu */
 .project-preview {
     background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(236, 72, 153, 0.05));
     padding: 40px 30px 20px;
@@ -1066,7 +1071,7 @@ footer, .footer-section {
     z-index: 1;
 }
 
-/* Browser Mockup */
+/* maketa prehliadača */
 .browser-mockup {
     background: var(--bg-dark);
     border-radius: 12px;
@@ -1122,7 +1127,7 @@ footer, .footer-section {
     min-height: 200px;
 }
 
-/* Mockup Content */
+/* obsah makety */
 .mockup-nav {
     height: 8px;
     background: rgba(255, 255, 255, 0.1);
@@ -1180,7 +1185,7 @@ footer, .footer-section {
     border: 2px solid var(--purple-main);
 }
 
-/* Project Info */
+/* informácie o projekte */
 .project-info {
     padding: 30px;
 }
@@ -1198,7 +1203,7 @@ footer, .footer-section {
     margin-bottom: 20px;
 }
 
-/* Tech Badges */
+/* technologické odznaky */
 .project-tech {
     display: flex;
     flex-wrap: wrap;
@@ -1223,7 +1228,7 @@ footer, .footer-section {
     transform: translateY(-2px);
 }
 
-/* Project Features */
+/* vlastnosti projektu */
 .project-features {
     display: flex;
     flex-wrap: wrap;
@@ -1248,14 +1253,14 @@ footer, .footer-section {
     font-size: 1.1rem;
 }
 
-/* Project Links */
+/* odkazy projektu */
 .project-links {
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
 }
 
-/* Coming Soon Section */
+/* sekcia Čoskoro */
 .coming-soon-section .glass-panel {
     background: rgba(168, 85, 247, 0.03);
     border: 1px dashed rgba(168, 85, 247, 0.3);
@@ -1267,8 +1272,8 @@ footer, .footer-section {
     opacity: 0.8;
 }
 
-/* === SMALL PROJECT CARDS === */
-/* For the grid of additional projects */
+/* === MALÉ PROJEKTOVÉ KARTY === */
+/* Pre mriežku dodatočných projektov */
 .project-card-small {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1367,7 +1372,7 @@ footer, .footer-section {
     background: rgba(168, 85, 247, 0.1);
 }
 
-/* Responsive adjustments for project cards */
+/* Responzívne úpravy pre projektové karty */
 @media (max-width: 768px) {
     .project-preview {
         padding: 30px 20px 15px;
