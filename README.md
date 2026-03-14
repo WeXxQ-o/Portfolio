@@ -4,22 +4,22 @@ My personal portfolio website with a modern dark theme and purple accents.
 
 ## 🛠️ Tech Stack
 
-- HTML5, CSS3, JavaScript
+- HTML5, CSS3, JavaScript, PHP
 - Bootstrap 5
 
 ## 📁 Structure
 
 ```
-├── index.html          # Homepage
+├── index.php         # Homepage
 ├── css/style.css       # Styles
 ├── js/script.js        # Scripts
 └── pages/
-    ├── about.html
-    ├── skills.html
-    ├── projects.html
-    ├── faq.html
-    ├── contact.html
-    └── thankyou.html
+    ├── about.php
+    ├── skills.php
+    ├── projects.php
+    ├── faq.php
+    ├── contact.php
+    └── thankyou.php
 ```
 
 ## 🚀 Quick Start
@@ -27,7 +27,7 @@ My personal portfolio website with a modern dark theme and purple accents.
 ```bash
 git clone https://github.com/WeXxQ-o/Portfolio.git
 cd Portfolio
-# Open index.html in browser
+# Open index.php in browser
 ```
 
 ## 📬 Contact

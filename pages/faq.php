@@ -17,7 +17,7 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <!-- logo s fialovou bodkou -->
-            <a class="navbar-brand" href="../index.html">
+            <a class="navbar-brand" href="../index.php">
                 <img src="../img/wexxqtransparent.png" alt="WeXxQ Logo" class="navbar-logo">
                 WeXxQ<span class="text-purple">.</span>
             </a>
@@ -28,12 +28,12 @@
             <div class="navbar-collapse" id="navbarNav">
                 <!-- navigačné linky zarovnané vpravo -->
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="skills.html">Skills</a></li>
-                    <li class="nav-item"><a class="nav-link" href="projects.html">Projects</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="faq.html">FAQ</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../index.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="skills.php">Skills</a></li>
+                    <li class="nav-item"><a class="nav-link" href="projects.php">Projects</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="faq.php">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
                 </ul>
             </div>
         </div>
@@ -66,7 +66,7 @@
                         <div class="question">Are you open to freelance projects?</div>
                         <div class="answer">
                             <p>Yes, I am open to freelance projects! I enjoy working on diverse projects that challenge me and help me grow as a developer.</p>
-                            <p class="mb-0">Feel free to reach out via the <a href="contact.html" class="text-purple">Contact page</a> to discuss potential collaborations.</p>
+                            <p class="mb-0">Feel free to reach out via the <a href="contact.php" class="text-purple">Contact page</a> to discuss potential collaborations.</p>
                         </div>
                     </div>
 
@@ -113,7 +113,7 @@
                     <div class="accordion">
                         <div class="question">How can I contact you for a project?</div>
                         <div class="answer">
-                            <p>You can contact me through the <a href="contact.html" class="text-purple">Contact page</a> on this website. Just fill out the form with:</p>
+                            <p>You can contact me through the <a href="contact.php" class="text-purple">Contact page</a> on this website. Just fill out the form with:</p>
                             <ul class="faq-list">
                                 <li>Your name and email</li>
                                 <li>Project description</li>
@@ -138,7 +138,7 @@
                 <div class="glass-panel d-inline-block px-5 py-4">
                     <h4 class="mb-3">Still have questions?</h4>
                     <p class="text-muted mb-4">Feel free to reach out, I'd love to hear from you!</p>
-                    <a href="contact.html" class="btn btn-purple">Get in Touch</a>
+                    <a href="contact.php" class="btn btn-purple">Get in Touch</a>
                 </div>
             </div>
 
@@ -164,18 +164,18 @@
                 <div class="col-lg-2 col-md-6">
                     <h6 class="text-white mb-3">Navigation</h6>
                     <ul class="list-unstyled footer-links">
-                        <li><a href="../index.html">Home</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="skills.html">Skills</a></li>
-                        <li><a href="projects.html">Projects</a></li>
+                        <li><a href="../index.php">Home</a></li>
+                        <li><a href="about.php">About</a></li>
+                        <li><a href="skills.php">Skills</a></li>
+                        <li><a href="projects.php">Projects</a></li>
                     </ul>
                 </div>
                 <!-- ostatné odkazy -->
                 <div class="col-lg-2 col-md-6">
                     <h6 class="text-white mb-3">Other</h6>
                     <ul class="list-unstyled footer-links">
-                        <li><a href="faq.html">FAQ</a></li>
-                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="faq.php">FAQ</a></li>
+                        <li><a href="contact.php">Contact</a></li>
                     </ul>
                 </div>
                 <!-- kontakt -->

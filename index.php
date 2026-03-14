@@ -4,21 +4,16 @@
     <!-- základné meta tagy -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Thank you for contacting WeXxQ - Your message has been received successfully.">
-    <meta name="keywords" content="thank you, message sent, contact confirmation, WeXxQ">
+    <meta name="description" content="WeXxQ Portfolio - Student developer passionate about creating modern web applications with HTML, CSS, JavaScript, Python and C.">
+    <meta name="keywords" content="portfolio, web developer, student developer, HTML, CSS, JavaScript, Python, C, Slovakia, WeXxQ">
     <meta name="author" content="WeXxQ">
-    <!-- Bootstrap 5 pre responsivitu -->
+    <!-- Bootstrap 5 pre responzivitu -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <!-- Bootstrap ikonky -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <!-- preconnect pre rýchlejšie načítanie fontov -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- JetBrains Mono font -->
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- vlastné štýly -->
-    <link rel="stylesheet" href="../css/style.css">
-    <title>Thank You | WeXxQ</title>
+    <link rel="stylesheet" href="css/style.css">
+    <title>Home | WeXxQ</title>
 </head>
 <body class="d-flex flex-column min-vh-100">
 
@@ -26,8 +21,8 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <!-- logo s fialovou bodkou -->
-            <a class="navbar-brand" href="../index.html">
-                <img src="../img/wexxqtransparent.png" alt="WeXxQ Logo" class="navbar-logo">
+            <a class="navbar-brand" href="index.php">
+                <img src="img/wexxqtransparent.png" alt="WeXxQ Logo" class="navbar-logo">
                 WeXxQ<span class="text-purple">.</span>
             </a>
             <!-- hamburger menu pre mobil -->
@@ -37,48 +32,49 @@
             <div class="navbar-collapse" id="navbarNav">
                 <!-- navigačné linky zarovnané vpravo -->
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="skills.html">Skills</a></li>
-                    <li class="nav-item"><a class="nav-link" href="projects.html">Projects</a></li>
-                    <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="index.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="pages/about.php">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="pages/skills.php">Skills</a></li>
+                    <li class="nav-item"><a class="nav-link" href="pages/projects.php">Projects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="pages/faq.php">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="pages/contact.php">Contact</a></li>
                 </ul>
             </div>
         </div>
     </nav>
-    
-    <!-- ďakovacia sekcia po odoslaní formulára -->
-    <section class="contact-section py-5 mt-5 flex-grow-1 d-flex align-items-center">
+
+    <!-- Banner s textom -->
+    <!-- hlavná hero sekcia s úvodným textom -->
+    <section class="hero-section flex-grow-1 text-center">
         <!-- fialové glowy na pozadí pre efekt -->
         <div class="hero-bg-glow top-right"></div>
         <div class="hero-bg-glow bottom-left"></div>
         
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-6 text-center">
-                    <div class="glass-panel py-5">
-                        <div class="text-purple mb-4">
-                            <i class="bi bi-check-circle icon-xl"></i>
-                        </div>
-                        <h1 class="display-5 fw-bold mb-3">Thank You!</h1>
-                        <p class="text-muted lead mb-4">
-                            Your message has been sent successfully. I will get back to you as soon as possible.
-                        </p>
-                        <div class="d-flex justify-content-center gap-3 flex-wrap">
-                            <a href="../index.html" class="btn btn-outline-purple">
-                                <i class="bi bi-house me-2"></i>Home
-                            </a>
-                            <a href="projects.html" class="btn btn-purple">
-                                <i class="bi bi-folder me-2"></i>View Projects
-                            </a>
-                        </div>
-                    </div>
-                </div>
+        <div class="container position-relative z-1">
+            <!-- status badge s animovanou bodkou -->
+            <div class="status-badge">
+                <span class="status-dot"></span>
+                Open to Opportunities
             </div>
+            
+            <!-- hlavný nadpis s gradientom -->
+            <h1 class="display-2 fw-bold mb-4">
+                Building Digital <br>
+                <span class="text-gradient">Experiences</span>
+            </h1>
+            <p class="lead mb-5 text-muted mx-auto hero-description">
+                I'm a Student Developer passionate about creating modern web applications with HTML, CSS, JavaScript, Python, and C.
+            </p>
+            <!-- tlačidlá pre akcie -->
+            <div class="d-flex justify-content-center gap-3">
+                <a href="pages/projects.php" class="btn btn-purple btn-lg px-5">View Work</a>
+                <a href="pages/contact.php" class="btn btn-outline-purple btn-lg px-5">Contact Me</a>
+            </div>
+            
         </div>
     </section>
 
+    <!-- footer sekcia -->
     <footer class="footer-section py-5 mt-auto">
         <div class="container">
             <div class="row g-4">
@@ -96,18 +92,18 @@
                 <div class="col-lg-2 col-md-6">
                     <h6 class="text-white mb-3">Navigation</h6>
                     <ul class="list-unstyled footer-links">
-                        <li><a href="../index.html">Home</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="skills.html">Skills</a></li>
-                        <li><a href="projects.html">Projects</a></li>
+                        <li><a href="index.php">Home</a></li>
+                        <li><a href="pages/about.php">About</a></li>
+                        <li><a href="pages/skills.php">Skills</a></li>
+                        <li><a href="pages/projects.php">Projects</a></li>
                     </ul>
                 </div>
                 <!-- ostatné odkazy -->
                 <div class="col-lg-2 col-md-6">
                     <h6 class="text-white mb-3">Other</h6>
                     <ul class="list-unstyled footer-links">
-                        <li><a href="faq.html">FAQ</a></li>
-                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="pages/faq.php">FAQ</a></li>
+                        <li><a href="pages/contact.php">Contact</a></li>
                     </ul>
                 </div>
                 <!-- kontakt -->
@@ -132,8 +128,7 @@
         </div>
     </footer>
 
-    
-   <script src="../js/script.js"></script>
-    
+    <!-- skripty na konci kvôli výkonu -->
+   <script src="js/script.js"></script> 
 </body>
 </html>

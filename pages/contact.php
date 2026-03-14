@@ -26,7 +26,7 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <!-- logo s fialovou bodkou -->
-            <a class="navbar-brand" href="../index.html">
+            <a class="navbar-brand" href="../index.php">
                 <img src="../img/wexxqtransparent.png" alt="WeXxQ Logo" class="navbar-logo">
                 WeXxQ<span class="text-purple">.</span>
             </a>
@@ -37,12 +37,12 @@
             <div class="navbar-collapse" id="navbarNav">
                 <!-- navigačné linky zarovnané vpravo -->
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="skills.html">Skills</a></li>
-                    <li class="nav-item"><a class="nav-link" href="projects.html">Projects</a></li>
-                    <li class="nav-item"><a class="nav-link" href="faq.html">FAQ</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="contact.html">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../index.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="skills.php">Skills</a></li>
+                    <li class="nav-item"><a class="nav-link" href="projects.php">Projects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="faq.php">FAQ</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="contact.php">Contact</a></li>
                 </ul>
             </div>
         </div>
@@ -76,7 +76,7 @@
                     
                     <!-- kontaktný formulár v sklenenom paneli -->
                     <div class="glass-panel">
-                        <form action="thankyou.html" method="GET" class="needs-validation" novalidate>
+                        <form action="thankyou.php" method="GET" class="needs-validation" novalidate>
                             
                             <!-- pole pre meno -->
                             <div class="mb-4">
@@ -213,18 +213,18 @@
                 <div class="col-lg-2 col-md-6">
                     <h6 class="text-white mb-3">Navigation</h6>
                     <ul class="list-unstyled footer-links">
-                        <li><a href="../index.html">Home</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="skills.html">Skills</a></li>
-                        <li><a href="projects.html">Projects</a></li>
+                        <li><a href="../index.php">Home</a></li>
+                        <li><a href="about.php">About</a></li>
+                        <li><a href="skills.php">Skills</a></li>
+                        <li><a href="projects.php">Projects</a></li>
                     </ul>
                 </div>
                 <!-- ostatné odkazy -->
                 <div class="col-lg-2 col-md-6">
                     <h6 class="text-white mb-3">Other</h6>
                     <ul class="list-unstyled footer-links">
-                        <li><a href="faq.html">FAQ</a></li>
-                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="faq.php">FAQ</a></li>
+                        <li><a href="contact.php">Contact</a></li>
                     </ul>
                 </div>
                 <!-- kontakt -->
