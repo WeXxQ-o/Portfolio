@@ -1,0 +1,217 @@
+/* FAQ sekcia */
+.faq-section {
+    min-height: 80vh;
+    position: relative;
+    overflow: visible;
+    padding-top: 100px;
+}
+
+.faq-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* hlavičky FAQ kategórií */
+.faq-category {
+    margin-top: 1rem;
+}
+
+.faq-category-title {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.faq-category-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, rgba(168, 85, 247, 0.3), transparent);
+}
+
+.faq-icon {
+    font-size: 1.2rem;
+}
+
+/* štýly pre akordeón */
+.accordion {
+    margin-bottom: 15px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.question {
+    background-color: var(--bg-dark);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 18px 50px 18px 45px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    font-weight: 500;
+}
+
+.question:hover {
+    background-color: rgba(168, 85, 247, 0.1);
+    border-color: var(--purple-main);
+    box-shadow: 0 5px 20px rgba(168, 85, 247, 0.15);
+}
+
+.question::before {
+    content: '+';
+    color: var(--purple-main);
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.4rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.question::after {
+    content: '';
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid var(--purple-main);
+    border-bottom: 2px solid var(--purple-main);
+    transform: translateY(-50%) rotate(45deg);
+    transition: transform 0.3s ease;
+}
+
+.accordion.active .question {
+    background-color: rgba(168, 85, 247, 0.15);
+    border-color: var(--purple-main);
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 5px 20px rgba(168, 85, 247, 0.2);
+}
+
+.accordion.active .question::before {
+    content: '−';
+    transform: translateY(-50%);
+}
+
+.accordion.active .question::after {
+    transform: translateY(-50%) rotate(-135deg);
+}
+
+.accordion .answer {
+    background-color: var(--bg-main);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    padding: 0 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                padding 0.3s ease, 
+                opacity 0.3s ease;
+    opacity: 0;
+    line-height: 1.7;
+}
+
+.accordion.active .answer {
+    max-height: 600px;
+    padding: 20px;
+    opacity: 1;
+    border-color: var(--purple-main);
+}
+
+.accordion .answer p {
+    color: var(--text-muted);
+}
+
+.accordion .answer a {
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.accordion .answer a:hover {
+    text-decoration: underline;
+}
+
+/* FAQ List Styling */
+.faq-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 1rem 0;
+}
+
+.faq-list li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 8px;
+    color: var(--text-muted);
+}
+
+.faq-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--purple-main);
+}
+
+/* technologické štítky v FAQ */
+.tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.tech-tag {
+    background: rgba(168, 85, 247, 0.15);
+    color: var(--purple-main);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    transition: all 0.2s ease;
+}
+
+.tech-tag:hover {
+    background: rgba(168, 85, 247, 0.25);
+    transform: translateY(-2px);
+}
+
+/* FAQ výzva k akcii sekcia */
+.faq-cta .glass-panel {
+    background: rgba(168, 85, 247, 0.05);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+/* stredová žiara pre FAQ */
+.hero-bg-glow.center-glow {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 400px;
+    opacity: 0.15;
+}
+
+/* Kontaktná sekcia */
+.contact-section {
+    min-height: 80vh;
+    position: relative;
+    overflow: hidden;
+    padding-top: 100px;
+}
+
+.contact-section .container {
+    position: relative;
+    z-index: 1;
+}

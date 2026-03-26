@@ -1,0 +1,52 @@
+# Security & Performance Settings
+
+# Disable directory browsing
+Options -Indexes
+
+# Protect sensitive files
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Protect config files
+<FilesMatch "(config\.php|functions\.php)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Enable mod_rewrite for clean URLs (optional)
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /Portfolio_/
+    
+    # Force HTTPS (uncomment for production)
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+    
+    # Remove .php extension (optional)
+    # RewriteCond %{REQUEST_FILENAME} !-d
+    # RewriteCond %{REQUEST_FILENAME}\.php -f
+    # RewriteRule ^(.*)$ $1.php [L]
+</IfModule>
+
+# Protect uploads directory
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_URI} ^/Portfolio_/uploads/
+    RewriteRule ^(.*)$ - [F,L]
+</IfModule>
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# PHP settings
+<IfModule mod_php.c>
+    php_flag display_errors Off
+    php_value upload_max_filesize 10M
+    php_value post_max_size 10M
+</IfModule>

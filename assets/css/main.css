@@ -1,0 +1,204 @@
+/* import JetBrains Mono fontu */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+/* CSS premenné pre farby - jednoduchšia správa */
+:root {
+    --bg-dark: #0f0f16;
+    --bg-card: #1a1a2e;
+    --purple-main: #a855f7;
+    --purple-hover: #9333ea;
+    --purple-glow: rgba(168, 85, 247, 0.5);
+    --text-main: #f1f5f9; 
+    --text-muted: #cbd5e1; 
+}
+
+/* základné nastavenia body */
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'JetBrains Mono', monospace;
+    overflow-x: hidden;
+}
+
+/* profilový obrázok s kruhovým tvarom a žiarou */
+.about-profile-img{
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid var(--purple-main);
+    box-shadow: 0 0 15px var(--purple-glow);
+}
+
+/* fialová čiara pod nadpismi */
+.purple-line {
+    width: 60px;
+    height: 4px;
+    background: var(--purple-main);
+    margin-bottom: 1rem;
+    border-radius: 2px;
+}
+
+/* === VLASTNÉ UTILITY TRIEDY === */
+/* fialová farba textu */
+.text-purple {
+    color: var(--purple-main) !important;
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+/* gradientový text - fialová do ružovej */
+.text-gradient {
+    background: linear-gradient(to right, #a855f7, #ec4899);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+.bg-purple {
+    background: linear-gradient(90deg, #7b2cbf, #9b4dff) !important;
+}
+
+/* === TLAČIDLÁ === */
+/* fialové tlačidlo s gradientom */
+.btn-purple {
+    background: linear-gradient(45deg, var(--purple-main), var(--purple-hover));
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 50px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-purple:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px var(--purple-glow);
+    color: white;
+}
+
+/* obrysová verzia - iba okraj */
+.btn-outline-purple {
+    border: 2px solid var(--purple-main);
+    color: var(--purple-main);
+    padding: 10px 25px;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    background: transparent;
+}
+
+.btn-outline-purple:hover {
+    background-color: var(--purple-main);
+    color: white;
+    box-shadow: 0 5px 15px var(--purple-glow);
+}
+
+/* === KARTY & GLASSMORPHISM === */
+/* základná karta s hover efektom */
+.card {
+    background-color: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border-color: var(--purple-main);
+}
+
+/* sklenený panel s efektom rozmazania */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 2rem;
+}
+
+/* === FORMULÁROVÉ PRVKY === */
+/* vstupné pole so skleneným efektom */
+.form-control-glass {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: var(--text-main) !important;
+    backdrop-filter: blur(5px);
+}
+
+.form-control-glass:focus {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: var(--purple-main) !important;
+    box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.25);
+    color: var(--text-main) !important;
+}
+
+.form-control-glass::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* === SEKCIE === */
+/* hlavná hero sekcia */
+.hero-section {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* popis v hero sekcii */
+.hero-description {
+    max-width: 600px;
+}
+
+.about-section {
+    min-height: 80vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.skills-section {
+    min-height: 80vh;
+    position: relative;
+    overflow: hidden;
+    padding: 100px 0 50px;
+    min-height: calc(100vh - 200px);
+}
+
+.projects-section {
+    min-height: 80vh;
+    position: relative;
+    overflow: visible;
+    padding-top: 100px;
+}
+
+.projects-section .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* rozmazané fialové žiary na pozadí */
+.hero-bg-glow {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: var(--purple-main);
+    filter: blur(150px);
+    opacity: 0.3;
+    border-radius: 50%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.hero-bg-glow.top-right {
+    top: 50px;
+    right: -50px;
+}
+
+.hero-bg-glow.bottom-left {
+    bottom: 50px;
+    left: -50px;
+}

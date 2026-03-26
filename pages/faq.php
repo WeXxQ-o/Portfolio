@@ -1,43 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- základné meta tagy -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Frequently Asked Questions about WeXxQ - Find answers about services, collaboration, and more.">
-    <meta name="keywords" content="FAQ, questions, answers, WeXxQ, web development, services">
-    <meta name="author" content="WeXxQ">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/style.css">
-    <title>FAQ | WeXxQ</title>
-</head>
-<body class="d-flex flex-column min-vh-100">
+<?php
+require_once '../config/config.php';
+require_once '../includes/functions.php';
 
-    
-    <nav class="navbar navbar-expand-lg fixed-top">
-        <div class="container">
-            <!-- logo s fialovou bodkou -->
-            <a class="navbar-brand" href="../index.php">
-                <img src="../img/wexxqtransparent.png" alt="WeXxQ Logo" class="navbar-logo">
-                WeXxQ<span class="text-purple">.</span>
-            </a>
-            <!-- hamburger menu pre mobil -->
-            <button class="navbar-toggler" type="button" id="navbarToggler" aria-expanded="false">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse" id="navbarNav">
-                <!-- navigačné linky zarovnané vpravo -->
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="../index.php">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="skills.php">Skills</a></li>
-                    <li class="nav-item"><a class="nav-link" href="projects.php">Projects</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="faq.php">FAQ</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+$pageTitle = 'FAQ';
+include '../includes/header.php';
+include '../includes/navbar.php';
+?>
     
     <section class="faq-section py-5 mt-5 flex-grow-1">
         <div class="hero-bg-glow top-right"></div>
@@ -146,61 +114,4 @@
     </section>
 
 
-
-    <footer class="footer-section py-5 mt-auto">
-        <div class="container">
-            <div class="row g-4">
-                <!-- logo a popis -->
-                <div class="col-lg-4 col-md-6">
-                    <h4 class="mb-3">WeXxQ<span class="text-purple">.</span></h4>
-                    <p class="text-muted small">Student developer passionate about creating modern web applications with HTML, CSS, JavaScript, Python and C.</p>
-                    <div class="social-links mt-3">
-                        <a href="https://github.com/WeXxQ-o" target="_blank"><i class="bi bi-github"></i></a>
-                        <a href="#" class="ms-3"><i class="bi bi-linkedin"></i></a>
-                        <a href="#" class="ms-3"><i class="bi bi-discord"></i></a>
-                    </div>
-                </div>
-                <!-- rýchle odkazy -->
-                <div class="col-lg-2 col-md-6">
-                    <h6 class="text-white mb-3">Navigation</h6>
-                    <ul class="list-unstyled footer-links">
-                        <li><a href="../index.php">Home</a></li>
-                        <li><a href="about.php">About</a></li>
-                        <li><a href="skills.php">Skills</a></li>
-                        <li><a href="projects.php">Projects</a></li>
-                    </ul>
-                </div>
-                <!-- ostatné odkazy -->
-                <div class="col-lg-2 col-md-6">
-                    <h6 class="text-white mb-3">Other</h6>
-                    <ul class="list-unstyled footer-links">
-                        <li><a href="faq.php">FAQ</a></li>
-                        <li><a href="contact.php">Contact</a></li>
-                    </ul>
-                </div>
-                <!-- kontakt -->
-                <div class="col-lg-4 col-md-6">
-                    <h6 class="text-white mb-3">Contact</h6>
-                    <ul class="list-unstyled footer-contact">
-                        <li><i class="bi bi-envelope text-purple me-2"></i>example@email.com</li>
-                        <li><i class="bi bi-geo-alt text-purple me-2"></i>Slovakia</li>
-                    </ul>
-                </div>
-            </div>
-            <!-- autorské práva -->
-            <hr class="my-4 border-secondary">
-            <div class="row align-items-center">
-                <div class="col-md-6 text-center text-md-start">
-                    <p class="m-0 small text-muted">&copy; 2025 WeXxQ. All rights reserved.</p>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <p class="m-0 small text-muted">Made with <span class="text-purple">&hearts;</span> in Slovakia</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    
-   <script src="../js/script.js"></script>
-</body>
-</html>
+    <?php include '../includes/footer.php'; ?>

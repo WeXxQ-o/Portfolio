@@ -1,0 +1,41 @@
+/* === RESPONSIVE STYLES === */
+
+/* Responzívne úpravy pre projektové karty */
+@media (max-width: 768px) {
+    .project-preview {
+        padding: 30px 20px 15px;
+    }
+    
+    .project-info {
+        padding: 20px;
+    }
+    
+    .project-title {
+        font-size: 1.3rem;
+    }
+    
+    .project-features {
+        gap: 12px;
+    }
+    
+    .feature-item {
+        font-size: 0.8rem;
+    }
+    
+    .project-links {
+        flex-direction: column;
+    }
+    
+    .project-links .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .project-card-small {
+        padding: 20px;
+    }
+    
+    .project-card-title {
+        font-size: 1.1rem;
+    }
+}
