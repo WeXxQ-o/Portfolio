@@ -1,77 +1,90 @@
-# 💼 Portfolio Website - Reštruktúrizované
+# Portfolio Website
 
-Modernizovaná súborová štruktúra s best practices pre PHP projekty.
+Modern personal portfolio website built with PHP, Bootstrap 5, and vanilla JavaScript.
 
-## 🛠️ Tech Stack
+![PHP](https://img.shields.io/badge/PHP-8.x-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-5-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=111)
+![Status](https://img.shields.io/badge/Status-Active-22C55E?style=for-the-badge)
 
-- **Frontend:** HTML5, CSS3, JavaScript
-- **Backend:** PHP
-- **Framework:** Bootstrap 5
-- **Architecture:** Modular structure with separation of concerns
+## About The Project
 
-## 📁 Profesionálna Štruktúra
+This project is a clean, multi-page portfolio focused on clarity, modern visuals, and maintainable code structure.
+It presents personal information, technical skills, project work, frequently asked questions, and contact options in one consistent experience.
 
-```
+The codebase is intentionally organized to separate layout, reusable UI parts, page content, and backend request handling.
+
+## Highlights
+
+- Responsive layout for desktop, tablet, and mobile
+- Dedicated pages for About, Skills, Projects, FAQ, and Contact
+- Modular CSS and JavaScript structure
+- Reusable shared layout includes
+- Contact form flow prepared for server-side handling
+- Scalable folder architecture for future expansion
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | HTML5, CSS3, JavaScript |
+| UI | Bootstrap 5 |
+| Backend | PHP |
+| Project Style | Modular structure with separation of concerns |
+
+## Project Structure
+
+```text
 Portfolio_/
-├── config/              # Konfigurácia (config.php)
-├── includes/            # Opakovateľné komponenty (header, navbar, footer, functions)
-├── components/          # Znovupoužiteľné UI komponenty
-├── handlers/            # Backend spracovanie (contact-handler.php)
-├── pages/               # Všetky podstránky
-├── assets/              # Statické súbory
-│   ├── css/             # 7 modulárnych CSS súborov
-│   ├── js/              # 4 modulárne JS súbory
-│   └── img/             # Organizované obrázky
-├── data/                # JSON dáta (projects, skills)
-├── templates/           # Email templates
-└── uploads/             # Nahraté súbory (chránené)
+├── index.php
+├── config/              # App configuration
+├── includes/            # Shared layout and helper functions
+├── components/          # Reusable UI blocks
+├── handlers/            # Form and request handlers
+├── pages/               # Individual pages
+├── assets/
+│   ├── css/             # Stylesheets
+│   ├── js/              # Frontend scripts
+│   └── img/             # Images and icons
+├── data/                # Local data files
+├── templates/           # Email and render templates
+└── uploads/             # Uploaded files
 ```
 
-## 🚀 Spustenie
+## Pages
 
-1. **Clone repository:**
-   ```bash
-   git clone https://github.com/WeXxQ-o/Portfolio.git
-   cd Portfolio
-   ```
+- Home
+- About
+- Skills
+- Projects
+- FAQ
+- Contact
 
-2. **Presun obrázkov:**
-   ```bash
-   python move_images.py
-   ```
+## Local Setup
 
-3. **Konfigurácia:**
-   - Uprav `config/config.php` - zmeň `BASE_URL` na svoju URL
-   - Pre production vypni `display_errors`
+1. Clone repository:
 
-4. **Otvor v prehliadači:**
-   ```
-   http://localhost/Portfolio_/index.php
-   ```
+```bash
+git clone https://github.com/WeXxQ-o/Portfolio.git
+cd Portfolio
+```
 
-## ✨ Výhody Novej Štruktúry
+2. Update base URL in config/config.php.
 
-- ✅ **DRY Princíp** - Header/Footer len raz definované
-- ✅ **Modularita** - CSS a JS rozdelené logicky  
-- ✅ **Bezpečnosť** - .htaccess ochrana, sanitizácia vstupov
-- ✅ **Škálovateľnosť** - Ľahko rozšíriteľné
-- ✅ **Profesionálne** - Industry best practices
+3. Run with local PHP server or XAMPP/WAMP.
 
-## 📄 Stránky
+4. Open:
 
-- **Home** - `index.php`
-- **About** - `pages/about.php`
-- **Skills** - `pages/skills.php`
-- **Projects** - `pages/projects.php`
-- **FAQ** - `pages/faq.php`
-- **Contact** - `pages/contact.php`
+```text
+http://localhost/Portfolio_/index.php
+```
 
-## 📬 Contact
+## Contact
 
-- GitHub: [@WeXxQ-o](https://github.com/WeXxQ-o)
+- GitHub: https://github.com/WeXxQ-o
 - Email: example@email.com
 - Location: Slovakia
 
 ---
 
-**Made with 💜 by WeXxQ**
+Built by WeXxQ
