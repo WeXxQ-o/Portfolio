@@ -1,113 +1,26 @@
-/* === STATUS BADGE === */
-/* odznak s animovanou bodkou */
-.status-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 8px 20px;
-    background: rgba(168, 85, 247, 0.1);
-    border: 1px solid rgba(168, 85, 247, 0.3);
-    border-radius: 50px;
-    color: var(--text-main);
-    font-size: 0.9rem;
-    font-weight: 500;
-    margin-bottom: 1.5rem;
-    backdrop-filter: blur(5px);
-}
-
-.status-dot {
-    width: 8px;
-    height: 8px;
-    background-color: var(--purple-main);
-    border-radius: 50%;
-    margin-right: 10px;
-    position: relative;
-    box-shadow: 0 0 10px var(--purple-main);
-}
-
-.status-dot::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border: 1px solid var(--purple-main);
-    animation: ripple 1.5s infinite cubic-bezier(0, 0.2, 0.8, 1);
-}
-
-/* vlnková animácia okolo bodky */
-@keyframes ripple {
-    0% {
-        width: 0;
-        height: 0;
-        opacity: 1;
-    }
-    100% {
-        width: 25px;
-        height: 25px;
-        opacity: 0;
-    }
-}
-
-/* === SKILLS === */
-/* položka zručnosti */
-.skill-item {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 20px;
-    transition: all 0.3s ease;
-}
-
-/* hover efekt pre zručnosť */
-.skill-item:hover {
-    background: rgba(255, 255, 255, 0.08);
-    transform: translateY(-2px);
-}
-
-.skill-item i {
-    font-size: 24px;
-    color: #7b2cbf;
-}
-
-.progress {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-    border-radius: 10px;
-}
-
-.progress-bar {
-    border-radius: 10px;
-}
-
-/* skill karty */
 .skill-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    padding: 24px;
-    transition: all 0.3s ease;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    transition: all var(--transition);
 }
 
 .skill-card:hover {
-    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--border-hover);
     transform: translateY(-4px);
-    border-color: var(--purple-main);
-    box-shadow: 0 10px 40px rgba(168, 85, 247, 0.15);
 }
 
 .skill-card-header {
     display: flex;
     align-items: center;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
 }
 
-/* ikona zručnosti */
 .skill-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 12px;
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-md);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -120,34 +33,33 @@
     transform: scale(1.1);
 }
 
-/* farby pre jednotlivé jazyky/technológie */
 .skill-icon.python {
-    background: linear-gradient(135deg, rgba(55, 118, 171, 0.2), rgba(255, 212, 59, 0.2));
+    background: rgba(55, 118, 171, 0.15);
     color: #3776ab;
 }
 
 .skill-icon.javascript {
-    background: rgba(247, 223, 30, 0.15);
+    background: rgba(247, 223, 30, 0.12);
     color: #f7df1e;
 }
 
 .skill-icon.c-lang {
-    background: rgba(85, 85, 85, 0.2);
+    background: rgba(85, 85, 85, 0.15);
     color: #a8b9cc;
 }
 
 .skill-icon.html {
-    background: rgba(227, 79, 38, 0.15);
+    background: rgba(227, 79, 38, 0.12);
     color: #e34f26;
 }
 
 .skill-icon.css {
-    background: rgba(21, 114, 182, 0.15);
+    background: rgba(21, 114, 182, 0.12);
     color: #1572b6;
 }
 
 .skill-icon.bootstrap {
-    background: rgba(121, 82, 179, 0.15);
+    background: rgba(121, 82, 179, 0.12);
     color: #7952b3;
 }
 
@@ -155,15 +67,42 @@
     flex: 1;
 }
 
+.skill-info h5 {
+    font-size: 1.0625rem;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.skill-info small {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
 .skill-percentage {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     font-weight: 700;
-    color: var(--purple-main);
+    color: var(--accent);
 }
 
 .skill-progress {
     height: 8px;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
+}
+
+.progress {
+    background-color: var(--bg-tertiary);
+    border-radius: 4px;
+    height: 8px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.progress-bar,
+.bg-purple {
+    height: 100%;
+    border-radius: 4px;
+    background-color: var(--accent) !important;
+    transition: width 0.6s ease;
 }
 
 .skill-tags {
@@ -172,22 +111,25 @@
     flex-wrap: wrap;
 }
 
-/* malé tagy pri zručnostiach */
 .skill-tag {
-    font-size: 0.75rem;
-    padding: 4px 10px;
-    background: rgba(168, 85, 247, 0.1);
-    border: 1px solid rgba(168, 85, 247, 0.2);
-    border-radius: 20px;
-    color: var(--purple-main);
+    font-size: 0.8125rem;
+    padding: 6px 12px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
 }
 
-/* ikona kategórie zručností */
+.skill-tag:hover {
+    background: var(--accent-subtle);
+    color: var(--accent);
+}
+
 .skill-category-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--purple-main), var(--purple-hover));
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-md);
+    background: var(--accent);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -195,124 +137,124 @@
     color: white;
 }
 
-/* === NÁSTROJE === */
-/* karta pre nástroj */
 .tool-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 24px 18px;
     text-align: center;
-    transition: all 0.3s ease;
+    transition: all var(--transition);
 }
 
 .tool-card:hover {
-    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--border-hover);
     transform: translateY(-4px);
-    border-color: var(--purple-main);
 }
 
 .tool-card i {
-    font-size: 32px;
-    width: 32px;
-    height: 32px;
-    line-height: 32px;
-    color: var(--purple-main);
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: auto;
-    margin-right: auto;
+    font-size: 30px;
+    color: var(--accent);
+    margin-bottom: 12px;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.tool-card:hover i {
+    transform: scale(1.15);
 }
 
 .tool-card span {
-    font-size: 0.85rem;
-    color: var(--text-muted);
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    display: block;
+    transition: color 0.3s ease;
 }
 
-/* === UČENIE === */
-/* odznak pre to čo sa práve učím */
+.tool-card:hover span {
+    color: var(--text-primary);
+}
+
 .learning-badge {
     display: inline-flex;
     align-items: center;
-    padding: 10px 20px;
-    background: rgba(168, 85, 247, 0.1);
-    border: 1px solid rgba(168, 85, 247, 0.3);
-    border-radius: 30px;
-    color: var(--text-main);
+    padding: 12px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
     font-weight: 500;
-    transition: all 0.3s ease;
+    font-size: 0.9375rem;
+    gap: 10px;
+    transition: all var(--transition);
 }
 
 .learning-badge:hover {
-    background: rgba(168, 85, 247, 0.2);
-    transform: translateY(-2px);
+    border-color: var(--border-hover);
+    transform: translateY(-3px);
 }
 
 .learning-badge i {
-    font-size: 1.2rem;
-    color: var(--purple-main);
+    font-size: 1.25rem;
+    color: var(--accent);
 }
 
-/* === STRÁNKA O MNE === */
-/* karta s profilovými informáciami */
 .about-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    padding: 30px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    padding: 36px;
     position: sticky;
-    top: 100px;
+    top: 80px;
 }
 
 .about-img-wrapper {
     position: relative;
-    width: 180px;
-    height: 180px;
+    width: 140px;
+    height: 140px;
 }
 
 .about-card .about-profile-img {
-    width: 180px;
-    height: 180px;
+    width: 140px;
+    height: 140px;
     object-fit: cover;
     border-radius: 50%;
-    border: 4px solid var(--purple-main);
-    box-shadow: 0 0 30px var(--purple-glow);
-    position: relative;
-    z-index: 1;
+    border: 3px solid var(--accent);
 }
 
 .about-img-border {
-    position: absolute;
-    top: -5px;
-    left: -5px;
-    right: -5px;
-    bottom: -5px;
-    border: 2px dashed rgba(168, 85, 247, 0.3);
-    border-radius: 50%;
-    animation: spin 20s linear infinite;
+    display: none;
 }
 
-/* rotujúci border okolo profilovky */
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+.about-card h3 {
+    font-size: 1.375rem;
+    margin-bottom: 6px;
 }
 
-/* rýchle info o mne */
+.about-card .text-purple {
+    color: var(--accent);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
 .quick-info {
     text-align: left;
+    margin-top: 1.5rem;
 }
 
 .quick-info-item {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    font-size: 0.9rem;
-    color: var(--text-muted);
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+}
+
+.quick-info-item:hover {
+    color: var(--text-primary);
+    padding-left: 8px;
 }
 
 .quick-info-item:last-child {
@@ -320,10 +262,11 @@
 }
 
 .quick-info-item i {
-    font-size: 1.1rem;
+    color: var(--accent);
+    width: 18px;
+    font-size: 1rem;
 }
 
-/* tlačidlá sociálnych sietí - kruhy */
 .social-btn {
     display: inline-flex;
     align-items: center;
@@ -331,32 +274,38 @@
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
     color: var(--text-muted);
-    margin: 0 5px;
-    transition: all 0.3s ease;
+    margin: 0 4px;
+    transition: all var(--transition);
+    font-size: 1.125rem;
 }
 
 .social-btn:hover {
-    background: var(--purple-main);
-    border-color: var(--purple-main);
-    color: white;
-    transform: translateY(-3px);
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-4px);
 }
 
 .about-content-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    padding: 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    transition: all var(--transition);
+}
+
+.about-content-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-4px);
 }
 
 .about-icon {
-    width: 45px;
-    height: 45px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, var(--purple-main), var(--purple-hover));
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    background: var(--accent);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -364,52 +313,58 @@
     color: white;
 }
 
+.about-content-card h4 {
+    font-size: 1.125rem;
+    margin: 0;
+}
+
 .interest-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-top: 15px;
+    margin-top: 18px;
 }
 
-/* štítky pre záujmy */
 .interest-tag {
     display: inline-flex;
     align-items: center;
-    padding: 8px 16px;
-    background: rgba(168, 85, 247, 0.1);
-    border: 1px solid rgba(168, 85, 247, 0.2);
-    border-radius: 25px;
-    color: var(--text-main);
-    font-size: 0.85rem;
-    transition: all 0.3s ease;
+    padding: 8px 14px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    gap: 8px;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
 }
 
 .interest-tag:hover {
-    background: rgba(168, 85, 247, 0.2);
-    transform: translateY(-2px);
+    border-color: var(--accent-border);
+    background: var(--accent-subtle);
 }
 
-/* === ČASOVÁ OS === */
-/* hlavná časová os */
+.interest-tag i {
+    color: var(--accent);
+}
+
 .timeline {
     position: relative;
-    padding-left: 30px;
+    padding-left: 28px;
 }
 
-/* vertikálna čiara timeline */
 .timeline::before {
     content: '';
     position: absolute;
-    left: 8px;
-    top: 5px;
-    bottom: 5px;
+    left: 6px;
+    top: 8px;
+    bottom: 8px;
     width: 2px;
-    background: linear-gradient(to bottom, var(--purple-main), transparent);
+    background: var(--accent);
 }
 
 .timeline-item {
     position: relative;
-    padding-bottom: 25px;
+    padding-bottom: 28px;
 }
 
 .timeline-item:last-child {
@@ -418,33 +373,52 @@
 
 .timeline-marker {
     position: absolute;
-    left: -26px;
-    top: 5px;
-    width: 12px;
-    height: 12px;
+    left: -24px;
+    top: 6px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
-    background: var(--purple-main);
-    border: 3px solid var(--bg-dark);
-    box-shadow: 0 0 10px var(--purple-glow);
+    background: var(--accent);
+    border: 3px solid var(--bg-primary);
 }
 
 .timeline-content {
-    background: rgba(255, 255, 255, 0.02);
-    border-radius: 12px;
-    padding: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    padding: 18px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.timeline-item:hover .timeline-content {
+    border-color: var(--border-color);
+    transform: translateX(6px);
+}
+
+.timeline-content h5 {
+    font-size: 1rem;
+    margin-bottom: 6px;
+}
+
+.timeline-content .text-purple {
+    color: var(--accent);
+    font-size: 0.875rem;
+    font-weight: 500;
 }
 
 .timeline-badge {
     font-size: 0.75rem;
-    padding: 4px 12px;
-    background: rgba(168, 85, 247, 0.15);
-    border-radius: 20px;
-    color: var(--purple-main);
-    white-space: nowrap;
+    padding: 5px 12px;
+    background: var(--accent-subtle);
+    border-radius: var(--radius-sm);
+    color: var(--accent);
+    font-weight: 500;
 }
 
-/* veľká ikona */
-.icon-xl {
-    font-size: 5rem;
+.alert-custom {
+    background: var(--accent-subtle);
+    border: 1px solid var(--accent-border);
+    color: var(--text-primary);
+    border-radius: var(--radius-md);
+    padding: 1rem;
 }

@@ -1,63 +1,73 @@
-// Nájdem formulár na stránke
-const contactForm = document.querySelector('.contact-section form');
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.querySelector('.contact-section form');
 
-// Ak formulár existuje, pridám validáciu
-if (contactForm) {
-    
-    // Pri odoslaní formulára
+    if (!contactForm) return;
+
     contactForm.addEventListener('submit', function(event) {
-        
-        // Získam polia z formulára
         const nameInput = document.getElementById('name');
         const emailInput = document.getElementById('email');
         const messageInput = document.getElementById('message');
         const gdprInput = document.getElementById('gdpr');
-        
-        // Na začiatku je všetko OK
+
         let isValid = true;
-        
-        // Odstránim predchádzajúce chyby
-        nameInput.classList.remove('is-invalid', 'is-valid');
-        emailInput.classList.remove('is-invalid', 'is-valid');
-        messageInput.classList.remove('is-invalid', 'is-valid');
-        gdprInput.classList.remove('is-invalid', 'is-valid');
-        
-        // Kontrola mena - musí mať aspoň 2 znaky
-        if (nameInput.value.trim().length < 2) {
-            nameInput.classList.add('is-invalid');
+
+        clearValidation(nameInput);
+        clearValidation(emailInput);
+        clearValidation(messageInput);
+        clearValidation(gdprInput);
+
+        if (nameInput && nameInput.value.trim().length < 2) {
+            setInvalid(nameInput);
             isValid = false;
-        } else {
-            nameInput.classList.add('is-valid');
+        } else if (nameInput) {
+            setValid(nameInput);
         }
-        
-        // Kontrola emailu - musí obsahovať @ a .
-        const email = emailInput.value.trim();
-        if (!email.includes('@') || !email.includes('.')) {
-            emailInput.classList.add('is-invalid');
+
+        if (emailInput) {
+            const email = emailInput.value.trim();
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                setInvalid(emailInput);
+                isValid = false;
+            } else {
+                setValid(emailInput);
+            }
+        }
+
+        if (messageInput && messageInput.value.trim().length < 10) {
+            setInvalid(messageInput);
             isValid = false;
-        } else {
-            emailInput.classList.add('is-valid');
+        } else if (messageInput) {
+            setValid(messageInput);
         }
-        
-        // Kontrola správy - musí mať aspoň 10 znakov
-        if (messageInput.value.trim().length < 10) {
-            messageInput.classList.add('is-invalid');
+
+        if (gdprInput && !gdprInput.checked) {
+            setInvalid(gdprInput);
             isValid = false;
-        } else {
-            messageInput.classList.add('is-valid');
+        } else if (gdprInput) {
+            setValid(gdprInput);
         }
-        
-        // Kontrola GDPR - musí byť zaškrtnuté
-        if (!gdprInput.checked) {
-            gdprInput.classList.add('is-invalid');
-            isValid = false;
-        } else {
-            gdprInput.classList.add('is-valid');
-        }
-        
-        // Ak niečo nie je správne, zastavím odoslanie
+
         if (!isValid) {
             event.preventDefault();
+            const firstInvalid = contactForm.querySelector('.is-invalid');
+            if (firstInvalid) {
+                firstInvalid.focus();
+            }
         }
     });
-}
+
+    function clearValidation(input) {
+        if (input) {
+            input.classList.remove('is-invalid', 'is-valid');
+        }
+    }
+
+    function setInvalid(input) {
+        input.classList.add('is-invalid');
+    }
+
+    function setValid(input) {
+        input.classList.add('is-valid');
+    }
+});

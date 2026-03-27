@@ -1,41 +1,387 @@
-/* === RESPONSIVE STYLES === */
-
-/* Responzívne úpravy pre projektové karty */
-@media (max-width: 768px) {
-    .project-preview {
-        padding: 30px 20px 15px;
+@media (max-width: 1199.98px) {
+    .container {
+        max-width: 960px;
     }
-    
+}
+
+@media (max-width: 991.98px) {
+    .container {
+        max-width: 720px;
+    }
+
+    .hero-section {
+        padding: 100px 0 70px;
+        min-height: auto;
+    }
+
+    .hero-section h1,
+    .display-2 {
+        font-size: 2.25rem !important;
+    }
+
+    .page-section,
+    .about-section,
+    .skills-section,
+    .projects-section,
+    .contact-section,
+    .faq-section {
+        padding: 80px 0 50px;
+    }
+
+    .about-card {
+        position: static;
+        margin-bottom: 2rem;
+    }
+
+    .row {
+        margin: 0 -8px;
+    }
+
+    [class*="col-"] {
+        padding: 0 8px;
+    }
+
+    .col-lg-4,
+    .col-lg-6,
+    .col-lg-8 {
+        width: 100%;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .container {
+        max-width: 540px;
+        padding: 0 1rem;
+    }
+
+    .hero-section {
+        padding: 90px 0 50px;
+    }
+
+    .hero-section h1,
+    .display-2 {
+        font-size: 1.875rem !important;
+        line-height: 1.2 !important;
+    }
+
+    .display-4 {
+        font-size: 1.5rem !important;
+    }
+
+    .display-5 {
+        font-size: 1.375rem !important;
+    }
+
+    .hero-description {
+        font-size: 0.9375rem;
+    }
+
+    .section-header h1 {
+        font-size: 1.75rem;
+    }
+
+    .section-header {
+        margin-bottom: 2rem;
+    }
+
+    .status-badge {
+        font-size: 0.75rem;
+        padding: 6px 14px;
+    }
+
+    .project-preview {
+        padding: 24px 18px 14px;
+    }
+
     .project-info {
         padding: 20px;
     }
-    
+
     .project-title {
-        font-size: 1.3rem;
+        font-size: 1.125rem;
     }
-    
+
     .project-features {
-        gap: 12px;
+        gap: 10px;
+        padding: 12px;
     }
-    
+
     .feature-item {
-        font-size: 0.8rem;
+        font-size: 0.8125rem;
     }
-    
+
     .project-links {
         flex-direction: column;
     }
-    
-    .project-links .btn {
+
+    .project-links .btn-purple,
+    .project-links .btn-accent,
+    .project-links .btn-outline-purple,
+    .project-links .btn-outline-accent {
         width: 100%;
         justify-content: center;
     }
-    
+
     .project-card-small {
         padding: 20px;
     }
-    
+
     .project-card-title {
-        font-size: 1.1rem;
+        font-size: 1rem;
+    }
+
+    .glass-panel,
+    .glass-card {
+        padding: 1.25rem;
+    }
+
+    .about-content-card {
+        padding: 18px;
+    }
+
+    .skill-card {
+        padding: 18px;
+    }
+
+    .btn-purple,
+    .btn-accent,
+    .btn-outline-purple,
+    .btn-outline-accent {
+        padding: 10px 20px;
+        font-size: 0.875rem;
+    }
+
+    .btn-lg {
+        padding: 12px 24px;
+    }
+
+    .contact-info-card {
+        padding: 18px;
+    }
+
+    .hero-bg-glow {
+        width: 200px;
+        height: 200px;
+        opacity: 0.04;
+    }
+
+    .footer-section {
+        text-align: center;
+    }
+
+    .footer-section h4,
+    .footer-section h6 {
+        margin-top: 1.5rem;
+    }
+
+    .footer-section .quick-info,
+    .footer-section .footer-links {
+        text-align: center;
+    }
+
+    .social-links {
+        justify-content: center;
+        display: flex;
+        gap: 8px;
+    }
+
+    .about-card {
+        padding: 24px;
+    }
+
+    .timeline {
+        padding-left: 20px;
+    }
+
+    .timeline-marker {
+        left: -18px;
+    }
+
+    .timeline-content {
+        padding: 14px;
+    }
+
+    .question {
+        padding: 14px 44px 14px 40px;
+        font-size: 0.875rem;
+    }
+
+    .accordion .answer {
+        padding: 0 16px;
+    }
+
+    .accordion.active .answer {
+        padding: 16px;
+    }
+
+    .col-md-4,
+    .col-md-6 {
+        width: 100%;
+    }
+
+    .col-6 {
+        width: 50%;
+    }
+
+    .d-flex.justify-content-center.gap-3 {
+        flex-direction: column;
+        gap: 0.625rem !important;
+    }
+
+    .d-flex.justify-content-center.gap-3 .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .container {
+        padding: 0 1rem;
+    }
+
+    .hero-section {
+        padding: 80px 0 40px;
+    }
+
+    .hero-section h1,
+    .display-2 {
+        font-size: 1.625rem !important;
+    }
+
+    .display-4 {
+        font-size: 1.375rem !important;
+    }
+
+    .page-section,
+    .about-section,
+    .skills-section,
+    .projects-section,
+    .contact-section,
+    .faq-section {
+        padding: 70px 0 40px;
+    }
+
+    .tool-card {
+        padding: 14px 10px;
+    }
+
+    .tool-card i {
+        font-size: 22px;
+    }
+
+    .tool-card span {
+        font-size: 0.75rem;
+    }
+
+    .skill-card-header {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .skill-percentage {
+        width: 100%;
+        text-align: right;
+        margin-top: -6px;
+    }
+
+    .learning-badge {
+        padding: 8px 14px;
+        font-size: 0.8125rem;
+    }
+
+    .interest-tags {
+        gap: 6px;
+    }
+
+    .interest-tag {
+        padding: 5px 10px;
+        font-size: 0.6875rem;
+    }
+
+    .about-img-wrapper,
+    .about-card .about-profile-img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .quick-info-item {
+        font-size: 0.8125rem;
+        padding: 8px 0;
+    }
+
+    .browser-content {
+        padding: 14px;
+        min-height: 140px;
+    }
+
+    .mockup-title {
+        width: 120px;
+        height: 16px;
+    }
+
+    .mockup-text {
+        width: 90px;
+    }
+
+    .project-badge {
+        top: 14px;
+        left: 14px;
+        padding: 5px 12px;
+        font-size: 0.6875rem;
+    }
+
+    .col-6 {
+        width: 50%;
+    }
+
+    .gap-3 {
+        gap: 0.625rem !important;
+    }
+
+    .py-5 {
+        padding-top: 1.5rem !important;
+        padding-bottom: 1.5rem !important;
+    }
+
+    .mb-5 {
+        margin-bottom: 1.5rem !important;
+    }
+
+    .mt-5 {
+        margin-top: 1.5rem !important;
+    }
+}
+
+@media (max-width: 399.98px) {
+    .hero-section h1,
+    .display-2 {
+        font-size: 1.375rem !important;
+    }
+
+    .btn-purple,
+    .btn-accent,
+    .btn-outline-purple,
+    .btn-outline-accent {
+        padding: 8px 16px;
+        font-size: 0.8125rem;
+    }
+
+    .status-badge {
+        font-size: 0.6875rem;
+        padding: 5px 10px;
+    }
+
+    .col-6 {
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 }

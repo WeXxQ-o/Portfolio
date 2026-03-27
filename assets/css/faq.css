@@ -1,217 +1,215 @@
-/* FAQ sekcia */
 .faq-section {
-    min-height: 80vh;
-    position: relative;
-    overflow: visible;
-    padding-top: 100px;
+    padding: 100px 0 80px;
 }
 
-.faq-section .container {
-    position: relative;
-    z-index: 1;
+.faq-section-group {
+    margin-bottom: 60px;
 }
 
-/* hlavičky FAQ kategórií */
-.faq-category {
-    margin-top: 1rem;
-}
-
-.faq-category-title {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+.faq-section-header {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 16px;
+    margin-bottom: 32px;
 }
 
-.faq-category-title::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(to right, rgba(168, 85, 247, 0.3), transparent);
-}
-
-.faq-icon {
-    font-size: 1.2rem;
-}
-
-/* štýly pre akordeón */
-.accordion {
-    margin-bottom: 15px;
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-.question {
-    background-color: var(--bg-dark);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    padding: 18px 50px 18px 45px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    font-weight: 500;
-}
-
-.question:hover {
-    background-color: rgba(168, 85, 247, 0.1);
-    border-color: var(--purple-main);
-    box-shadow: 0 5px 20px rgba(168, 85, 247, 0.15);
-}
-
-.question::before {
-    content: '+';
-    color: var(--purple-main);
-    position: absolute;
-    left: 18px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1.4rem;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    width: 24px;
-    height: 24px;
+.faq-section-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--accent);
+    border-radius: var(--radius-md);
     display: flex;
     align-items: center;
     justify-content: center;
+    color: white;
+    font-size: 1.5rem;
 }
 
-.question::after {
-    content: '';
-    position: absolute;
-    right: 18px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 8px;
-    height: 8px;
-    border-right: 2px solid var(--purple-main);
-    border-bottom: 2px solid var(--purple-main);
-    transform: translateY(-50%) rotate(45deg);
-    transition: transform 0.3s ease;
+.faq-section-header h3 {
+    font-size: 1.75rem;
+    margin: 0;
+    color: var(--text-primary);
 }
 
-.accordion.active .question {
-    background-color: rgba(168, 85, 247, 0.15);
-    border-color: var(--purple-main);
-    border-radius: 12px 12px 0 0;
-    box-shadow: 0 5px 20px rgba(168, 85, 247, 0.2);
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
 }
 
-.accordion.active .question::before {
-    content: '−';
-    transform: translateY(-50%);
+.faq-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    transition: all var(--transition);
 }
 
-.accordion.active .question::after {
-    transform: translateY(-50%) rotate(-135deg);
+.faq-item:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-6px);
 }
 
-.accordion .answer {
-    background-color: var(--bg-main);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-top: none;
-    border-radius: 0 0 12px 12px;
-    padding: 0 20px;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-                padding 0.3s ease, 
-                opacity 0.3s ease;
-    opacity: 0;
-    line-height: 1.7;
-}
-
-.accordion.active .answer {
-    max-height: 600px;
-    padding: 20px;
-    opacity: 1;
-    border-color: var(--purple-main);
-}
-
-.accordion .answer p {
-    color: var(--text-muted);
-}
-
-.accordion .answer a {
-    text-decoration: none;
-    transition: all 0.2s ease;
-}
-
-.accordion .answer a:hover {
-    text-decoration: underline;
-}
-
-/* FAQ List Styling */
-.faq-list {
-    list-style: none;
-    padding-left: 0;
-    margin: 1rem 0;
-}
-
-.faq-list li {
-    position: relative;
-    padding-left: 20px;
-    margin-bottom: 8px;
-    color: var(--text-muted);
-}
-
-.faq-list li::before {
-    content: '→';
-    position: absolute;
-    left: 0;
-    color: var(--purple-main);
-}
-
-/* technologické štítky v FAQ */
-.tech-tags {
+.faq-item-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--accent-subtle);
+    border: 1px solid var(--accent-border);
+    border-radius: var(--radius-md);
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 10px;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    font-size: 1.25rem;
+    margin-bottom: 18px;
 }
 
-.tech-tag {
-    background: rgba(168, 85, 247, 0.15);
-    color: var(--purple-main);
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    border: 1px solid rgba(168, 85, 247, 0.3);
-    transition: all 0.2s ease;
+.faq-item h4 {
+    font-size: 1.125rem;
+    margin-bottom: 12px;
+    color: var(--text-primary);
 }
 
-.tech-tag:hover {
-    background: rgba(168, 85, 247, 0.25);
-    transform: translateY(-2px);
+.faq-item p {
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    margin: 0;
 }
 
-/* FAQ výzva k akcii sekcia */
-.faq-cta .glass-panel {
-    background: rgba(168, 85, 247, 0.05);
-    border: 1px solid rgba(168, 85, 247, 0.2);
+.faq-item a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color var(--transition);
 }
 
-/* stredová žiara pre FAQ */
-.hero-bg-glow.center-glow {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 400px;
-    height: 400px;
-    opacity: 0.15;
+.faq-item a:hover {
+    color: var(--accent-hover);
 }
 
-/* Kontaktná sekcia */
-.contact-section {
-    min-height: 80vh;
-    position: relative;
-    overflow: hidden;
-    padding-top: 100px;
+.faq-cta-section {
+    margin-top: 60px;
 }
 
-.contact-section .container {
-    position: relative;
-    z-index: 1;
+.faq-cta-card {
+    background: var(--bg-card);
+    border: 2px solid var(--accent-border);
+    border-radius: var(--radius-xl);
+    padding: 56px 40px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.faq-cta-icon {
+    width: 70px;
+    height: 70px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+    margin: 0 auto 24px;
+}
+
+.faq-cta-card h2 {
+    font-size: 2rem;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+}
+
+.faq-cta-card p {
+    font-size: 1.0625rem;
+    color: var(--text-secondary);
+    max-width: 500px;
+    margin: 0 auto 32px;
+}
+
+@media (max-width: 767.98px) {
+    .faq-section {
+        padding: 80px 0 60px;
+    }
+
+    .faq-section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 24px;
+    }
+
+    .faq-section-header h3 {
+        font-size: 1.5rem;
+    }
+
+    .faq-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .faq-item {
+        padding: 24px;
+    }
+
+    .faq-item h4 {
+        font-size: 1rem;
+    }
+
+    .faq-item p {
+        font-size: 0.875rem;
+    }
+
+    .faq-cta-card {
+        padding: 40px 28px;
+    }
+
+    .faq-cta-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.75rem;
+    }
+
+    .faq-cta-card h2 {
+        font-size: 1.625rem;
+    }
+
+    .faq-cta-card p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .faq-section-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 1.25rem;
+    }
+
+    .faq-section-header h3 {
+        font-size: 1.375rem;
+    }
+
+    .faq-item {
+        padding: 20px;
+    }
+
+    .faq-item-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.125rem;
+    }
+
+    .faq-cta-card {
+        padding: 32px 20px;
+    }
+
+    .faq-cta-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+
+    .faq-cta-card h2 {
+        font-size: 1.375rem;
+    }
 }
