@@ -1,10 +1,10 @@
 <?php
 /**
- * Pomocné PHP funkcie
+ * My helper functions
  */
 
 /**
- * Sanitize user input
+ * Cleans input (trim, stripslashes, htmlspecialchars)
  */
 function sanitize($data) {
     $data = trim($data);
@@ -14,7 +14,7 @@ function sanitize($data) {
 }
 
 /**
- * Check if current page is active
+ * Check if we're on a page (for 'active' CSS class)
  */
 function isActive($page) {
     $currentPage = basename($_SERVER['PHP_SELF']);
@@ -22,21 +22,21 @@ function isActive($page) {
 }
 
 /**
- * Validate email
+ * Basic email validation
  */
 function validateEmail($email) {
     return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
 }
 
 /**
- * Get current page title
+ * Returns page title
  */
 function getPageTitle($pageTitle = 'Home') {
     return $pageTitle . ' | ' . SITE_NAME;
 }
 
 /**
- * Include component
+ * Load a component
  */
 function includeComponent($component, $data = []) {
     extract($data);

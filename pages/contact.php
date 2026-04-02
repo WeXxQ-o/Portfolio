@@ -30,7 +30,7 @@ include '../includes/navbar.php';
                 </div>
 
                 <div class="glass-panel reveal">
-                    <form action="../handlers/contact-handler.php" method="GET" class="needs-validation" novalidate>
+                    <form action="../handlers/contact-handler.php" method="POST" class="needs-validation" novalidate>
                         <div class="mb-4">
                             <label for="name" class="form-label">
                                 <i class="bi bi-person me-2"></i>Name
