@@ -4,18 +4,59 @@
  */
 
 require_once '../config/config.php';
-// not fully made yet
 
-// Start session
+// Configure secure session cookie settings before starting session
+$isProduction = defined('ENVIRONMENT') && ENVIRONMENT === 'production';
+ini_set('session.use_strict_mode', '1');
+ini_set('session.cookie_httponly', '1');
+ini_set('session.use_only_cookies', '1');
+ini_set('session.cookie_samesite', 'Lax');
+if ($isProduction) {
+    ini_set('session.cookie_secure', '1');
+}
+
 session_start();
 
-// TODO: if already logged in, go to dashboard
+// If already logged in, skip login page
+if (!empty($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true && !empty($_SESSION['admin_id'])) {
+    header('Location: ' . ADMIN_URL . '/index.php');
+    exit;
+}
 
 // Generate CSRF token
 if (empty($_SESSION['csrf_token'])){
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 $csrf_token = $_SESSION['csrf_token'];
+
+// Initialize error and success messages
+$error_message = '';
+$success_message = '';
+
+// Parse error from query parameter
+$error = $_GET['error'] ?? '';
+switch ($error) {
+    case 'locked':
+        $error_message = 'Account temporarily locked. Please try again later.';
+        break;
+    case 'invalid':
+        $error_message = 'Invalid username or password.';
+        break;
+    case 'csrf':
+        $error_message = 'Security token invalid. Please try again.';
+        break;
+    case 'empty':
+        $error_message = 'Username and password are required.';
+        break;
+    case 'invalid_format':
+        $error_message = 'Username or password format is invalid.';
+        break;
+    case 'db':
+        $error_message = 'Database connection error. Please try again later.';
+        break;
+    default:
+        $error_message = '';
+}
 
 $pageTitle = 'Admin Login';
 ?>
@@ -138,20 +179,21 @@ $pageTitle = 'Admin Login';
                             </a>
                         </div>
                     </form>
-                </div>
 
-                <!-- Login Info -->
-                <div class="text-center mt-4">
-                    <p class="text-muted small mb-2">
-                        <i class="bi bi-shield-check text-purple me-1"></i>
-                        Secure login with encrypted connection
-                    </p>
-                    <p class="text-muted small">
-                        Default credentials: <code class="text-purple">admin / admin123</code><br>
-                        <span class="text-warning">⚠ Change password after first login!</span>
-                    </p>
-                </div>
+                    <!-- Login Info -->
+                    <div class="text-center mt-4">
+                        <p class="text-muted small mb-2">
+                            <i class="bi bi-shield-check text-purple me-1"></i>
+                            Secure login with encrypted connection
+                        </p>
+                        <p class="text-muted small">
+                            Default credentials: <code class="text-purple">admin / admin123</code><br>
+                            <span class="text-warning">⚠ Change password after first login!</span>
+                        </p>
+                    </div>
 
+
+                </div>
             </div>
         </div>
     </div>

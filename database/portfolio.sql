@@ -77,6 +77,19 @@ CREATE TABLE IF NOT EXISTS `site_settings` (
   INDEX `idx_key` (`setting_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Table: login_attempts
+-- Attempts to log in
+CREATE TABLE IF NOT EXISTS login_attempts (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  ip_bin VARBINARY(16) NOT NULL,
+  username_norm VARCHAR(100) NOT NULL,
+  attempted_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_ip_time (ip_bin, attempted_at),
+  INDEX idx_user_time (username_norm, attempted_at),
+  INDEX idx_pair_time (ip_bin, username_norm, attempted_at),
+  INDEX idx_attempted_at (attempted_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Default admin account
 INSERT INTO `admins` (`username`, `email`, `password`, `full_name`, `status`) VALUES
 ('admin', 'admin@wexxq.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Administrator', 'active');

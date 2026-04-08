@@ -6,9 +6,78 @@ require_once '../../config/config.php';
 require_once '../../config/database.php';
 require_once '../../includes/functions.php';
 
+function getClientIp(): string {
+    // Safe default
+    $ip = $_SERVER['REMOTE_ADDR'] ?? '';
+    return filter_var($ip, FILTER_VALIDATE_IP) ? $ip : '0.0.0.0';
+}
+
+function isRateLimited(PDO $db, string $ip, string $username): bool {
+    $ipBin = inet_pton($ip);
+    $usernameNorm = mb_strtolower(trim($username));
+
+    $sql = "
+      SELECT
+        COALESCE(SUM(CASE WHEN ip_bin = ? THEN 1 ELSE 0 END), 0) AS ip_count,
+        COALESCE(SUM(CASE WHEN username_norm = ? THEN 1 ELSE 0 END), 0) AS user_count,
+        COALESCE(SUM(CASE WHEN ip_bin = ? AND username_norm = ? THEN 1 ELSE 0 END), 0) AS pair_count
+      FROM login_attempts
+      WHERE attempted_at > (NOW() - INTERVAL 15 MINUTE)
+    ";
+    $st = $db->prepare($sql);
+    $st->execute([$ipBin, $usernameNorm, $ipBin, $usernameNorm]);
+    $r = $st->fetch();
+
+    return ($r['ip_count'] >= 20) || ($r['user_count'] >= 10) || ($r['pair_count'] >= 5);
+}
+
+function recordFailedAttempt(PDO $db, string $ip, string $username): void {
+    $st = $db->prepare("INSERT INTO login_attempts (ip_bin, username_norm) VALUES (?, ?)");
+    $st->execute([inet_pton($ip), mb_strtolower(trim($username))]);
+}
+
+function clearAttemptsOnSuccess(PDO $db, string $ip, string $username): void {
+    $st = $db->prepare("
+      DELETE FROM login_attempts
+      WHERE ip_bin = ? AND username_norm = ? AND attempted_at > (NOW() - INTERVAL 24 HOUR)
+    ");
+    $st->execute([inet_pton($ip), mb_strtolower(trim($username))]);
+}
+
+function cleanupOldAttempts(PDO $db): void {
+    // Delete records older than 24 hours to prevent table bloat
+    $st = $db->prepare("DELETE FROM login_attempts WHERE attempted_at < (NOW() - INTERVAL 24 HOUR)");
+    $st->execute();
+}
+
+// Enforce HTTPS in production before session starts to avoid issuing cookies over insecure connections.
+function isHttpsRequest(){
+    if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS']!== 'off') return true;
+    if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443) return true;
+    if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https') return true;
+    return false;
+}
+
+if(defined('ENVIRONMENT') && ENVIRONMENT === 'production' && !isHttpsRequest()){
+    http_response_code(400);
+    exit('HTTPS is required in production');
+
+}
+
+// Configure secure session cookie settings before starting session
+$isProduction = defined('ENVIRONMENT') && ENVIRONMENT === 'production';
+ini_set('session.use_strict_mode', '1');
+ini_set('session.cookie_httponly', '1');
+ini_set('session.use_only_cookies', '1');
+ini_set('session.cookie_samesite', 'Lax');
+if ($isProduction) {
+    ini_set('session.cookie_secure', '1');
+}
+
 session_start();
 
 //Check request method
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: ' . BASE_URL . '/admin/login.php');
     exit;
@@ -32,7 +101,8 @@ if(strlen($username) < 3 || strlen($username) > 50){
     header('Location: ' . BASE_URL . '/admin/login.php?error=invalid_format');
     exit;
 }
-if(strlen($password) < 6 || strlen($password) > 255){
+
+if(strlen($password) < 8 || strlen($password) > 255){
     header('Location: ' . BASE_URL . '/admin/login.php?error=invalid_format');
     exit;
 }
@@ -45,24 +115,14 @@ if (!$db){
     exit;
 }
 
-//Rate limiting
-$max_attempts = 3;
-$lockout_duration = 300;
+// Cleanup old login attempts (run on every login to prevent table bloat)
+cleanupOldAttempts($db);
 
-if(!isset($_SESSION['login_attempts'])){
-    $_SESSION['login_attempts'] = 0;
-    $_SESSION['last_attempt_time'] = 0;
-}
-
-$time_since_last = time() - $_SESSION['last_attempt_time'];
-if($_SESSION['login_attempts'] >= $max_attempts){
-    if($time_since_last < $lockout_duration){
-        $remaining = $lockout_duration - $time_since_last;
-        header('Location: ' . BASE_URL . '/admin/login.php?error=locked&remaining=' . $remaining);
-        exit;
-    }else{
-        $_SESSION['login_attempts'] = 0;
-    }
+// Rate limiting (IP + username, server-side)
+$ip = getClientIp();
+if (isRateLimited($db, $ip, $username)) {
+    header('Location: ' . BASE_URL . '/admin/login.php?error=locked');
+    exit;
 }
 
 // Query user
@@ -70,7 +130,7 @@ $stmt = $db->prepare('SELECT * FROM admins WHERE username = ?');
 $stmt->execute([$username]);
 $admin = $stmt->fetch();
 
-// Verify password (timing attack protection)
+// Verify password with a dummy hash fallback to reduce username-enumeration timing leaks.
 if($admin){
    $passwordValid = password_verify($password, $admin['password']);
 }else{
@@ -80,28 +140,25 @@ if($admin){
 
 // Failed login
 if(!$admin || !$passwordValid || $admin['status'] !== 'active'){
-    $_SESSION['login_attempts']++;
-    $_SESSION['last_attempt_time'] = time();
+    recordFailedAttempt($db, $ip, $username);
     header('Location: ' . BASE_URL . '/admin/login.php?error=invalid');
     exit;
 }
 
-// Successful login - regenerate session ID (prevent session fixation)
-// TODO: log successful logins somewhere for safety
+// Successful login
+clearAttemptsOnSuccess($db, $ip, $username);
+
+// Regenerate session ID to prevent session fixation attacks
 session_regenerate_id(true);
 
-$_SESSION['logged_in'] = true;
-$_SESSION['user_id'] = $admin['id'];
-$_SESSION['username'] = $admin['username'];
-$_SESSION['full_name'] = $admin['full_name'];
-$_SESSION['email'] = $admin['email'];
-$_SESSION['login_attempts'] = 0;
-$_SESSION['last_attempt_time'] = 0;
+// Set session variables
+$_SESSION['admin_id'] = $admin['id'];
+$_SESSION['admin_username'] = $admin['username'];
+$_SESSION['admin_logged_in'] = true;
 
-// Update last_login
-// TODO: save IP address too
-$stmt = $db->prepare('UPDATE admins SET last_login = NOW() WHERE id = ?');
-$stmt->execute([$admin['id']]);
+// Update last login timestamp
+$updateStmt = $db->prepare('UPDATE admins SET last_login = NOW() WHERE id = ?');
+$updateStmt->execute([$admin['id']]);
 
 header('Location: ' . ADMIN_URL . '/index.php');
 exit;
