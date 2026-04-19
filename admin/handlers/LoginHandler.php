@@ -4,6 +4,9 @@ class LoginHandler
 {
     private PDO $db;
 
+    private const REMEMBER_COOKIE = 'admin_remember';
+    private const REMEMBER_DAYS = 30;
+
     public function __construct(PDO $db)
     {
         $this->db = $db;
@@ -16,6 +19,7 @@ class LoginHandler
         $this->validateCsrf();
 
         $credentials = $this->validateInput();
+        $rememberMe = !empty($_POST['remember']);
         $this->cleanupOldAttempts();
 
         // Use the client IP for rate limiting and tracking failed attempts.
@@ -45,6 +49,12 @@ class LoginHandler
         // Save the last login time for the admin record.
         $updateStmt = $this->db->prepare('UPDATE admins SET last_login = NOW() WHERE id = ?');
         $updateStmt->execute([$admin['id']]);
+
+        if ($rememberMe) {
+            $this->issueRememberToken((int) $admin['id']);
+        } else {
+            $this->clearRememberCookie();
+        }
 
         header('Location: ' . ADMIN_URL . '/index.php');
         exit;
@@ -157,6 +167,52 @@ class LoginHandler
         }
 
         return password_verify($password, $admin['password']) && $admin['status'] === 'active';
+    }
+
+    private function issueRememberToken(int $adminId): void
+    {
+        $selector = bin2hex(random_bytes(9));     // 18 chars
+        $validator = bin2hex(random_bytes(32));   // secret in cookie
+        $tokenHash = hash('sha256', $validator);  // hash in DB
+        $expiresAt = (new DateTimeImmutable('+' . self::REMEMBER_DAYS . ' days'))->format('Y-m-d H:i:s');
+
+        $this->db->prepare('DELETE FROM admin_remember_tokens WHERE admin_id = ?')->execute([$adminId]);
+        $this->db->prepare('DELETE FROM admin_remember_tokens WHERE expires_at <= NOW()')->execute();
+
+        $insert = $this->db->prepare('
+            INSERT INTO admin_remember_tokens (admin_id, selector, token_hash, expires_at)
+            VALUES (?, ?, ?, ?)
+        ');
+        $insert->execute([$adminId, $selector, $tokenHash, $expiresAt]);
+
+        $cookieValue = $selector . ':' . $validator;
+        $this->setRememberCookie($cookieValue, time() + (self::REMEMBER_DAYS * 86400));
+    }
+
+    private function setRememberCookie(string $value, int $expires): void
+    {
+        $isProduction = defined('ENVIRONMENT') && ENVIRONMENT === 'production';
+
+        setcookie(self::REMEMBER_COOKIE, $value, [
+            'expires' => $expires,
+            'path' => '/',
+            'secure' => $isProduction,
+            'httponly' => true,
+            'samesite' => 'Lax',
+        ]);
+    }
+
+    private function clearRememberCookie(): void
+    {
+        $isProduction = defined('ENVIRONMENT') && ENVIRONMENT === 'production';
+
+        setcookie(self::REMEMBER_COOKIE, '', [
+            'expires' => time() - 3600,
+            'path' => '/',
+            'secure' => $isProduction,
+            'httponly' => true,
+            'samesite' => 'Lax',
+        ]);
     }
 
     private function redirectWithError(string $error): void

@@ -1,12 +1,6 @@
 <?php
-/**
- * Admin Logout Placeholder
- *
- * TODO: logout logic goes here.
- */
+require_once '../config/config.php';
+require_once 'handlers/LogoutHandler.php';
 
-// TODO: clear session and kill it.
-// TODO: delete cookies.
-// TODO: go back to login with success msg.
-http_response_code(501);
-echo 'Logout is not implemented yet.';
+$logoutHandler = new LogoutHandler();
+$logoutHandler->handle();

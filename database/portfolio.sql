@@ -90,9 +90,25 @@ CREATE TABLE IF NOT EXISTS login_attempts (
   INDEX idx_attempted_at (attempted_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Table: admin_remember_tokens
+-- Remember tokens for admin login
+CREATE TABLE IF NOT EXISTS admin_remember_tokens (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  admin_id INT(11) UNSIGNED NOT NULL,
+  selector CHAR(18) NOT NULL UNIQUE,
+  token_hash CHAR(64) NOT NULL,
+  expires_at DATETIME NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_admin_id (admin_id),
+  INDEX idx_expires (expires_at),
+  CONSTRAINT fk_remember_admin
+    FOREIGN KEY (admin_id) REFERENCES admins(id)
+    ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Default admin account
 INSERT INTO `admins` (`username`, `email`, `password`, `full_name`, `status`) VALUES
-('admin', 'admin@wexxq.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Administrator', 'active');
+('admin', 'admin@wexxq.com', '$2y$12$xEQe.673bpLM/0ldtaXwFOZq2bBSza44BdGkKBfATHmxIHjPfxRU6', 'Administrator', 'active');
 
 -- Some test messages
 INSERT INTO `contact_messages` (`name`, `email`, `message`, `status`, `ip_address`) VALUES
@@ -127,10 +143,4 @@ SELECT
     SUM(CASE WHEN YEARWEEK(created_at, 1) = YEARWEEK(CURDATE(), 1) THEN 1 ELSE 0 END) as week_messages
 FROM `contact_messages`;
 
--- All done, database is ready!
--- What next:
--- 1. Import this to MySQL
--- 2. Set your credentials in config/database.php
--- 3. Change admin password!
--- 4. Set up email if you want notifications
--- =====================================================
+

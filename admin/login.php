@@ -3,6 +3,7 @@
  * Admin Login Page
  */
 
+
 require_once '../config/config.php';
 
 // Configure secure session cookie settings before starting session
@@ -15,7 +16,103 @@ if ($isProduction) {
     ini_set('session.cookie_secure', '1');
 }
 
+function clearRememberCookieLocal(): void
+{
+    $isProduction = defined('ENVIRONMENT') && ENVIRONMENT === 'production';
+
+    setcookie('admin_remember', '', [
+        'expires' => time() - 3600,
+        'path' => '/',
+        'secure' => $isProduction,
+        'httponly' => true,
+        'samesite' => 'Lax',
+    ]);
+}
+
+function tryRememberLogin(PDO $db): bool
+{
+    if (empty($_COOKIE['admin_remember'])) {
+        return false;
+    }
+
+    $parts = explode(':', $_COOKIE['admin_remember'], 2);
+    if (count($parts) !== 2) {
+        clearRememberCookieLocal();
+        return false;
+    }
+
+    [$selector, $validator] = $parts;
+
+    if (!preg_match('/^[a-f0-9]{18}$/', $selector) || !preg_match('/^[a-f0-9]{64}$/', $validator)) {
+        clearRememberCookieLocal();
+        return false;
+    }
+
+    $stmt = $db->prepare('
+        SELECT t.id AS token_id, t.admin_id, t.token_hash, t.expires_at, a.username
+        FROM admin_remember_tokens t
+        INNER JOIN admins a ON a.id = t.admin_id
+        WHERE t.selector = ? AND a.status = "active"
+        LIMIT 1
+    ');
+    $stmt->execute([$selector]);
+    $row = $stmt->fetch();
+
+    if (!$row) {
+        clearRememberCookieLocal();
+        return false;
+    }
+
+    if (strtotime($row['expires_at']) < time()) {
+        $db->prepare('DELETE FROM admin_remember_tokens WHERE id = ?')->execute([$row['token_id']]);
+        clearRememberCookieLocal();
+        return false;
+    }
+
+    if (!hash_equals($row['token_hash'], hash('sha256', $validator))) {
+        $db->prepare('DELETE FROM admin_remember_tokens WHERE id = ?')->execute([$row['token_id']]);
+        clearRememberCookieLocal();
+        return false;
+    }
+
+    session_regenerate_id(true);
+    $_SESSION['admin_id'] = (int) $row['admin_id'];
+    $_SESSION['admin_username'] = $row['username'];
+    $_SESSION['admin_logged_in'] = true;
+
+    // Rotate token on every auto-login
+    $newSelector = bin2hex(random_bytes(9));
+    $newValidator = bin2hex(random_bytes(32));
+    $newHash = hash('sha256', $newValidator);
+    $newExpires = (new DateTimeImmutable('+30 days'))->format('Y-m-d H:i:s');
+
+    $db->prepare('DELETE FROM admin_remember_tokens WHERE id = ?')->execute([$row['token_id']]);
+    $db->prepare('
+        INSERT INTO admin_remember_tokens (admin_id, selector, token_hash, expires_at)
+        VALUES (?, ?, ?, ?)
+    ')->execute([(int) $row['admin_id'], $newSelector, $newHash, $newExpires]);
+
+    $isProduction = defined('ENVIRONMENT') && ENVIRONMENT === 'production';
+    setcookie('admin_remember', $newSelector . ':' . $newValidator, [
+        'expires' => time() + (30 * 86400),
+        'path' => '/',
+        'secure' => $isProduction,
+        'httponly' => true,
+        'samesite' => 'Lax',
+    ]);
+
+    return true;
+}
+
+
 session_start();
+
+if (empty($_SESSION['admin_logged_in']) || empty($_SESSION['admin_id'])) {
+    $db = getDbConnection();
+    if ($db) {
+        tryRememberLogin($db);
+    }
+}
 
 // If already logged in, skip login page
 if (!empty($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true && !empty($_SESSION['admin_id'])) {
@@ -53,6 +150,9 @@ switch ($error) {
         break;
     case 'db':
         $error_message = 'Database connection error. Please try again later.';
+        break;
+    case 'signed_out':
+        $success_message = 'Signed out successfully.';
         break;
     default:
         $error_message = '';
@@ -106,7 +206,6 @@ $pageTitle = 'Admin Login';
                     <?php endif; ?>
 
                     <!-- Success Message -->
-                    <!-- TODO: show "Signed out" if they just logged out -->
                     <?php if ($success_message): ?>
                         <div class="alert alert-dismissible mb-4" role="alert" style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); color: #22c55e;">
                             <i class="bi bi-check-circle me-2"></i>
@@ -163,7 +262,6 @@ $pageTitle = 'Admin Login';
                                 <label class="form-check-label" for="remember">
                                     Remember me for 30 days
                                 </label>
-                                <!-- TODO: make "Remember me" actually work with cookies -->
                             </div>
                         </div>
 
