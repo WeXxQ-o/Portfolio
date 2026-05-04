@@ -17,7 +17,7 @@ define('SITE_AUTHOR', 'WeXxQ');
 define('SITE_KEYWORDS', 'portfolio, web developer, student developer, HTML, CSS, JavaScript, Python, C, Slovakia');
 
 // Base URL (change this to your own)
-define('BASE_URL', 'http://localhost:63342/Portfolio_');
+define('BASE_URL', 'http://localhost/Portfolio/');
 define('BASE_PATH', dirname(__DIR__));
 
 // Asset paths
@@ -50,3 +50,6 @@ define('ADMIN_PATH', BASE_PATH . '/admin');
 
 // Environment setting
 define('ENVIRONMENT', 'development'); // TODO: Switch to 'production' when going live
+
+// Database helpers
+require_once __DIR__ . '/database.php';

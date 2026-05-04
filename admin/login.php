@@ -5,6 +5,7 @@
 
 
 require_once '../config/config.php';
+require_once __DIR__ . '/../config/database.php';
 
 // Configure secure session cookie settings before starting session
 $isProduction = defined('ENVIRONMENT') && ENVIRONMENT === 'production';

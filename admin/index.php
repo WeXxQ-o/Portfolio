@@ -5,12 +5,45 @@
  */
 
 require_once '../config/config.php';
+require_once __DIR__ . '/includes/auth-check.php';
 
+requireAuth();
+$current_admin = getCurrentAdmin();
 $pageTitle = 'Dashboard';
 
-// TODO: make this actually check if someone is logged in
-// TODO: get real stats from database (messages, projects)
-// TODO: add a bubble with new messages count in sidebar
+$total_messages = 0;
+$today_messages = 0;
+$new_messages = 0;
+$total_projects = 0;
+$recent_messages = [];
+
+try {
+    $db = getDbConnection();
+
+    $statsStmt = $db->query('SELECT COUNT(*) AS total_messages, SUM(CASE WHEN DATE(created_at) = CURDATE() THEN 1 ELSE 0 END) AS today_messages, SUM(CASE WHEN status = "new" THEN 1 ELSE 0 END) AS new_messages FROM contact_messages');
+    $stats = $statsStmt->fetch();
+
+    if ($stats) {
+        $total_messages = (int)($stats['total_messages'] ?? 0);
+        $today_messages = (int)($stats['today_messages'] ?? 0);
+        $new_messages = (int)($stats['new_messages'] ?? 0);
+    }
+
+    $projectsStmt = $db->query('SELECT COUNT(*) AS total_projects FROM projects WHERE status = "active"');
+    $projectsData = $projectsStmt->fetch();
+    if ($projectsData) {
+        $total_projects = (int)($projectsData['total_projects'] ?? 0);
+    }
+
+    $recentStmt = $db->query('SELECT id, name, email, message, status, created_at FROM contact_messages ORDER BY created_at DESC LIMIT 5');
+    $recent_messages = $recentStmt->fetchAll();
+} catch (Throwable $e) {
+    $total_messages = 0;
+    $today_messages = 0;
+    $new_messages = 0;
+    $total_projects = 0;
+    $recent_messages = [];
+}
 
 include 'includes/admin-header.php';
 include 'includes/admin-sidebar.php';
@@ -122,12 +155,8 @@ include 'includes/admin-sidebar.php';
                     <i class="bi bi-inbox"></i>
                     <h3>No Messages Yet</h3>
                     <p>Contact form submissions will appear here.</p>
-                    <p class="text-muted small mt-3">
-                        <strong>TODO:</strong> Import database/portfolio.sql and update config/database.php with your credentials.
-                    </p>
                 </div>
             <?php else: ?>
-                <!-- TODO: Display recent messages table -->
                 <table class="data-table">
                     <thead>
                         <tr>
@@ -153,7 +182,6 @@ include 'includes/admin-sidebar.php';
                                 <td><?php echo date('M d, Y', strtotime($message['created_at'])); ?></td>
                                 <td>
                                     <div class="action-buttons">
-                                        <!-- TODO: quick button to mark message as read -->
                                         <a href="<?php echo ADMIN_URL; ?>/messages.php?view=<?php echo $message['id']; ?>" class="btn-icon" title="View">
                                             <i class="bi bi-eye"></i>
                                         </a>
@@ -175,20 +203,6 @@ include 'includes/admin-sidebar.php';
                         <i class="bi bi-envelope icon-xl text-purple mb-3"></i>
                         <h5>View Messages</h5>
                         <p class="text-muted small mb-0">Manage contact form submissions</p>
-                    </a>
-                </div>
-                <div class="col-md-4">
-                    <a href="<?php echo ADMIN_URL; ?>/projects.php" class="glass-card d-block text-center" style="text-decoration: none;">
-                        <i class="bi bi-folder icon-xl text-purple mb-3"></i>
-                        <h5>Manage Projects</h5>
-                        <p class="text-muted small mb-0">Add, edit, or delete portfolio projects</p>
-                    </a>
-                </div>
-                <div class="col-md-4">
-                    <a href="<?php echo ADMIN_URL; ?>/settings.php" class="glass-card d-block text-center" style="text-decoration: none;">
-                        <i class="bi bi-gear icon-xl text-purple mb-3"></i>
-                        <h5>Settings</h5>
-                        <p class="text-muted small mb-0">Configure site settings</p>
                     </a>
                 </div>
             </div>

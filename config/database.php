@@ -62,7 +62,7 @@ function getDbConnection() {
 }
 
 
- // Check if we can connect
+// Check if we can connect
 function testDbConnection() {
     try {
         $db = getDbConnection();

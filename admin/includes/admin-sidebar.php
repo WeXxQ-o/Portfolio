@@ -52,28 +52,6 @@ function isActivePage($page) {
                     <?php endif; ?>
                 </a>
             </li>
-            <li>
-                <a href="<?php echo ADMIN_URL; ?>/projects.php" class="<?php echo isActivePage('projects.php'); ?>">
-                    <i class="bi bi-folder"></i>
-                    <span>Projects</span>
-                </a>
-            </li>
-        </ul>
-
-        <div class="nav-section-title">Settings</div>
-        <ul>
-            <li>
-                <a href="<?php echo ADMIN_URL; ?>/profile.php" class="<?php echo isActivePage('profile.php'); ?>">
-                    <i class="bi bi-person"></i>
-                    <span>Profile</span>
-                </a>
-            </li>
-            <li>
-                <a href="<?php echo ADMIN_URL; ?>/settings.php" class="<?php echo isActivePage('settings.php'); ?>">
-                    <i class="bi bi-gear"></i>
-                    <span>Settings</span>
-                </a>
-            </li>
         </ul>
 
         <div class="nav-section-title">Other</div>

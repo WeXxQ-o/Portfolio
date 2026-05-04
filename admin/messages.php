@@ -5,8 +5,98 @@
  */
 
 require_once '../config/config.php';
+require_once __DIR__ . '/includes/auth-check.php';
 
+requireAuth();
+$current_admin = getCurrentAdmin();
 $pageTitle = 'Messages';
+
+$allowed_statuses = ['all', 'new', 'read', 'replied', 'archived'];
+$status_filter = $_GET['status'] ?? 'all';
+if (!in_array($status_filter, $allowed_statuses, true)) {
+    $status_filter = 'all';
+}
+
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page < 1) {
+    $page = 1;
+}
+
+$per_page = 10;
+$messages = [];
+$total_messages = 0;
+$total_pages = 1;
+$view_message = null;
+$csrf_token = generateCsrfToken();
+
+try {
+    $db = getDbConnection();
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $action = $_POST['action'] ?? '';
+        $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
+        $token = $_POST['csrf_token'] ?? '';
+
+        if ($id > 0 && verifyCsrfToken($token)) {
+            if ($action === 'mark_read') {
+                $stmt = $db->prepare('UPDATE contact_messages SET status = "read", read_at = NOW() WHERE id = ?');
+                $stmt->execute([$id]);
+            } elseif ($action === 'delete') {
+                $stmt = $db->prepare('DELETE FROM contact_messages WHERE id = ?');
+                $stmt->execute([$id]);
+            }
+        }
+
+        $redirect_status = urlencode($status_filter);
+        $redirect_page = max(1, $page);
+        header('Location: ' . ADMIN_URL . '/messages.php?status=' . $redirect_status . '&page=' . $redirect_page);
+        exit;
+    }
+
+    if (isset($_GET['view']) && ctype_digit((string)$_GET['view'])) {
+        $view_id = (int)$_GET['view'];
+        $viewStmt = $db->prepare('SELECT id, name, email, message, status, created_at FROM contact_messages WHERE id = ? LIMIT 1');
+        $viewStmt->execute([$view_id]);
+        $view_message = $viewStmt->fetch() ?: null;
+    }
+
+    if ($status_filter === 'all') {
+        $countStmt = $db->query('SELECT COUNT(*) FROM contact_messages');
+        $total_messages = (int)$countStmt->fetchColumn();
+        $total_pages = (int)max(1, ceil($total_messages / $per_page));
+        if ($page > $total_pages) {
+            $page = $total_pages;
+        }
+        $offset = ($page - 1) * $per_page;
+
+        $listStmt = $db->prepare('SELECT id, name, email, message, status, created_at FROM contact_messages ORDER BY created_at DESC LIMIT ? OFFSET ?');
+        $listStmt->bindValue(1, $per_page, PDO::PARAM_INT);
+        $listStmt->bindValue(2, $offset, PDO::PARAM_INT);
+        $listStmt->execute();
+        $messages = $listStmt->fetchAll();
+    } else {
+        $countStmt = $db->prepare('SELECT COUNT(*) FROM contact_messages WHERE status = ?');
+        $countStmt->execute([$status_filter]);
+        $total_messages = (int)$countStmt->fetchColumn();
+        $total_pages = (int)max(1, ceil($total_messages / $per_page));
+        if ($page > $total_pages) {
+            $page = $total_pages;
+        }
+        $offset = ($page - 1) * $per_page;
+
+        $listStmt = $db->prepare('SELECT id, name, email, message, status, created_at FROM contact_messages WHERE status = ? ORDER BY created_at DESC LIMIT ? OFFSET ?');
+        $listStmt->bindValue(1, $status_filter, PDO::PARAM_STR);
+        $listStmt->bindValue(2, $per_page, PDO::PARAM_INT);
+        $listStmt->bindValue(3, $offset, PDO::PARAM_INT);
+        $listStmt->execute();
+        $messages = $listStmt->fetchAll();
+    }
+} catch (Throwable $e) {
+    $messages = [];
+    $total_messages = 0;
+    $total_pages = 1;
+    $view_message = null;
+}
 
 include 'includes/admin-header.php';
 include 'includes/admin-sidebar.php';
@@ -16,7 +106,6 @@ include 'includes/admin-sidebar.php';
 <div class="admin-content">
 
     <!-- Header -->
-    <!-- TODO: add a search bar here -->
     <header class="admin-header">
         <div class="admin-header-content">
             <div class="admin-header-left">
@@ -52,9 +141,20 @@ include 'includes/admin-sidebar.php';
                 <a href="?status=archived" class="btn <?php echo $status_filter === 'archived' ? 'btn-purple' : 'btn-outline-purple'; ?>">
                     Archived
                 </a>
-                <!-- TODO: add a spam tab -->
             </div>
         </div>
+
+        <?php if (!empty($view_message)): ?>
+            <div class="glass-card mb-4 p-4">
+                <h3 class="mb-3">Message Detail #<?php echo (int)$view_message['id']; ?></h3>
+                <p><strong>Name:</strong> <?php echo htmlspecialchars($view_message['name']); ?></p>
+                <p><strong>Email:</strong> <a href="mailto:<?php echo htmlspecialchars($view_message['email']); ?>" class="text-purple"><?php echo htmlspecialchars($view_message['email']); ?></a></p>
+                <p><strong>Status:</strong> <?php echo htmlspecialchars(ucfirst($view_message['status'])); ?></p>
+                <p><strong>Date:</strong> <?php echo date('M d, Y H:i', strtotime($view_message['created_at'])); ?></p>
+                <hr>
+                <p class="mb-0"><?php echo nl2br(htmlspecialchars($view_message['message'])); ?></p>
+            </div>
+        <?php endif; ?>
 
         <!-- Messages Table -->
         <div class="data-table-wrapper">
@@ -76,9 +176,6 @@ include 'includes/admin-sidebar.php';
                         <?php else: ?>
                             No <?php echo $status_filter; ?> messages at this time.
                         <?php endif; ?>
-                    </p>
-                    <p class="text-muted small mt-3">
-                        <strong>TODO:</strong> connect the DB and make sure it's saving messages.
                     </p>
                 </div>
             <?php else: ?>
@@ -118,24 +215,27 @@ include 'includes/admin-sidebar.php';
                                 <td><?php echo date('M d, Y H:i', strtotime($message['created_at'])); ?></td>
                                 <td>
                                     <div class="action-buttons">
-                                        <!-- TODO: Implement view/edit functionality -->
-                                        <!-- TODO: quick reply button (email or modal) -->
                                         <a href="?view=<?php echo $message['id']; ?>" class="btn-icon" title="View">
                                             <i class="bi bi-eye"></i>
                                         </a>
-                                        <!-- TODO: Implement mark as read functionality -->
                                         <?php if ($message['status'] === 'new'): ?>
-                                            <a href="?action=mark_read&id=<?php echo $message['id']; ?>" class="btn-icon" title="Mark as Read">
-                                                <i class="bi bi-check"></i>
-                                            </a>
+                                            <form method="post" style="display:inline;">
+                                                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
+                                                <input type="hidden" name="action" value="mark_read">
+                                                <input type="hidden" name="id" value="<?php echo (int)$message['id']; ?>">
+                                                <button type="submit" class="btn-icon" title="Mark as Read" style="border:0;background:none;padding:0;">
+                                                    <i class="bi bi-check"></i>
+                                                </button>
+                                            </form>
                                         <?php endif; ?>
-                                        <!-- TODO: Implement delete functionality -->
-                                        <a href="?action=delete&id=<?php echo $message['id']; ?>"
-                                           class="btn-icon btn-danger"
-                                           title="Delete"
-                                           onclick="return confirmDelete('Are you sure you want to delete this message?')">
-                                            <i class="bi bi-trash"></i>
-                                        </a>
+                                        <form method="post" style="display:inline;" onsubmit="return confirmDelete('Are you sure you want to delete this message?')">
+                                            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token); ?>">
+                                            <input type="hidden" name="action" value="delete">
+                                            <input type="hidden" name="id" value="<?php echo (int)$message['id']; ?>">
+                                            <button type="submit" class="btn-icon btn-danger" title="Delete" style="border:0;background:none;padding:0;">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>
