@@ -68,6 +68,25 @@ include '../includes/navbar.php';
                         </div>
 
                         <div class="mb-4">
+                            <label for="subject" class="form-label">
+                                <i class="bi bi-chat-left-text me-2"></i>Subject
+                            </label>
+                            <input
+                                type="text"
+                                class="form-control form-control-glass"
+                                id="subject"
+                                name="subject"
+                                placeholder="Message subject"
+                                required
+                                minlength="3"
+                                maxlength="120"
+                            >
+                            <div class="invalid-feedback">
+                                Please enter a subject (min. 3 characters).
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
                             <label for="message" class="form-label">
                                 <i class="bi bi-chat-dots me-2"></i>Message
                             </label>

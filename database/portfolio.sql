@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS `contact_messages` (
   `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
+  `subject` VARCHAR(150) NOT NULL,
   `message` TEXT NOT NULL,
   `status` ENUM('new', 'read', 'replied', 'archived') DEFAULT 'new',
   `ip_address` VARCHAR(45) DEFAULT NULL,
@@ -111,10 +112,10 @@ INSERT INTO `admins` (`username`, `email`, `password`, `full_name`, `status`) VA
 ('admin', 'admin@wexxq.com', '$2y$12$xEQe.673bpLM/0ldtaXwFOZq2bBSza44BdGkKBfATHmxIHjPfxRU6', 'Administrator', 'active');
 
 -- Some test messages
-INSERT INTO `contact_messages` (`name`, `email`, `message`, `status`, `ip_address`) VALUES
-('John Doe', 'john@example.com', 'Hi, I would like to discuss a potential project collaboration. Please let me know your availability.', 'new', '192.168.1.1'),
-('Jane Smith', 'jane@example.com', 'Your portfolio looks amazing! I have a question about your skills section.', 'read', '192.168.1.2'),
-('Mike Johnson', 'mike@example.com', 'Are you available for freelance work? I need a developer for a web project.', 'new', '192.168.1.3');
+INSERT INTO `contact_messages` (`name`, `email`, `subject`, `message`, `status`, `ip_address`) VALUES
+('John Doe', 'john@example.com', 'Project collaboration', 'Hi, I would like to discuss a potential project collaboration. Please let me know your availability.', 'new', '192.168.1.1'),
+('Jane Smith', 'jane@example.com', 'Question about skills section', 'Your portfolio looks amazing! I have a question about your skills section.', 'read', '192.168.1.2'),
+('Mike Johnson', 'mike@example.com', 'Freelance availability', 'Are you available for freelance work? I need a developer for a web project.', 'new', '192.168.1.3');
 
 -- A few sample projects
 INSERT INTO `projects` (`title`, `short_description`, `description`, `technologies`, `category`, `status`, `featured`, `order_position`) VALUES

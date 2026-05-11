@@ -55,7 +55,7 @@ try {
 
     if (isset($_GET['view']) && ctype_digit((string)$_GET['view'])) {
         $view_id = (int)$_GET['view'];
-        $viewStmt = $db->prepare('SELECT id, name, email, message, status, created_at FROM contact_messages WHERE id = ? LIMIT 1');
+        $viewStmt = $db->prepare('SELECT id, name, email, subject, message, status, created_at FROM contact_messages WHERE id = ? LIMIT 1');
         $viewStmt->execute([$view_id]);
         $view_message = $viewStmt->fetch() ?: null;
     }
@@ -69,7 +69,7 @@ try {
         }
         $offset = ($page - 1) * $per_page;
 
-        $listStmt = $db->prepare('SELECT id, name, email, message, status, created_at FROM contact_messages ORDER BY created_at DESC LIMIT ? OFFSET ?');
+        $listStmt = $db->prepare('SELECT id, name, email, subject, message, status, created_at FROM contact_messages ORDER BY created_at DESC LIMIT ? OFFSET ?');
         $listStmt->bindValue(1, $per_page, PDO::PARAM_INT);
         $listStmt->bindValue(2, $offset, PDO::PARAM_INT);
         $listStmt->execute();
@@ -84,7 +84,7 @@ try {
         }
         $offset = ($page - 1) * $per_page;
 
-        $listStmt = $db->prepare('SELECT id, name, email, message, status, created_at FROM contact_messages WHERE status = ? ORDER BY created_at DESC LIMIT ? OFFSET ?');
+        $listStmt = $db->prepare('SELECT id, name, email, subject, message, status, created_at FROM contact_messages WHERE status = ? ORDER BY created_at DESC LIMIT ? OFFSET ?');
         $listStmt->bindValue(1, $status_filter, PDO::PARAM_STR);
         $listStmt->bindValue(2, $per_page, PDO::PARAM_INT);
         $listStmt->bindValue(3, $offset, PDO::PARAM_INT);
@@ -149,6 +149,7 @@ include 'includes/admin-sidebar.php';
                 <h3 class="mb-3">Message Detail #<?php echo (int)$view_message['id']; ?></h3>
                 <p><strong>Name:</strong> <?php echo htmlspecialchars($view_message['name']); ?></p>
                 <p><strong>Email:</strong> <a href="mailto:<?php echo htmlspecialchars($view_message['email']); ?>" class="text-purple"><?php echo htmlspecialchars($view_message['email']); ?></a></p>
+                <p><strong>Subject:</strong> <?php echo htmlspecialchars($view_message['subject']); ?></p>
                 <p><strong>Status:</strong> <?php echo htmlspecialchars(ucfirst($view_message['status'])); ?></p>
                 <p><strong>Date:</strong> <?php echo date('M d, Y H:i', strtotime($view_message['created_at'])); ?></p>
                 <hr>
@@ -185,6 +186,7 @@ include 'includes/admin-sidebar.php';
                             <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Subject</th>
                             <th>Message</th>
                             <th>Status</th>
                             <th>Date</th>
@@ -201,6 +203,7 @@ include 'includes/admin-sidebar.php';
                                         <?php echo htmlspecialchars($message['email']); ?>
                                     </a>
                                 </td>
+                                <td><?php echo htmlspecialchars($message['subject']); ?></td>
                                 <td>
                                     <?php
                                     $preview = htmlspecialchars(substr($message['message'], 0, 60));
