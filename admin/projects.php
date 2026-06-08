@@ -270,7 +270,6 @@ include 'includes/admin-sidebar.php';
                 <a href="?status=active" class="btn <?php echo $status_filter === 'active' ? 'btn-purple' : 'btn-outline-purple'; ?>">Active</a>
                 <a href="?status=inactive" class="btn <?php echo $status_filter === 'inactive' ? 'btn-purple' : 'btn-outline-purple'; ?>">Inactive</a>
                 <a href="?status=draft" class="btn <?php echo $status_filter === 'draft' ? 'btn-purple' : 'btn-outline-purple'; ?>">Draft</a>
-                <a href="projects.php" class="btn btn-outline-light">New Project</a>
             </div>
         </div>
 
