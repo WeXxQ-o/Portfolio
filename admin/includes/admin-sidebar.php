@@ -13,8 +13,10 @@ if (!isset($current_admin) || !is_array($current_admin)) {
     ];
 }
 
-function isActivePage($page) {
+function isActivePage($page): string
+{
     global $current_page;
+
     return $current_page === $page ? 'active' : '';
 }
 ?>
@@ -50,6 +52,12 @@ function isActivePage($page) {
                     <?php if ($new_messages_count > 0): ?>
                         <span class="nav-badge"><?php echo $new_messages_count; ?></span>
                     <?php endif; ?>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo ADMIN_URL; ?>/projects.php" class="<?php echo isActivePage('projects.php'); ?>">
+                    <i class="bi bi-folder2-open"></i>
+                    <span>Projects</span>
                 </a>
             </li>
         </ul>

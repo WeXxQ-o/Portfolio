@@ -11,18 +11,20 @@ define('DB_PASS', '');                    // DB password
 define('DB_CHARSET', 'utf8mb4');
 
 // Class to handle database connection
-class Database {
+class Database
+{
     private $host = DB_HOST;
     private $db_name = DB_NAME;
     private $username = DB_USER;
     private $password = DB_PASS;
     private $charset = DB_CHARSET;
-    public $conn;
 
+    public $conn;
 
     // Get PDO connection
 
-    public function getConnection() {
+    public function getConnection()
+    {
         $this->conn = null;
 
         try {
@@ -34,14 +36,14 @@ class Database {
             ];
 
             $this->conn = new PDO($dsn, $this->username, $this->password, $options);
-        } catch(PDOException $e) {
-            error_log("Database Connection Error: " . $e->getMessage());
+        } catch (PDOException $e) {
+            error_log('Database Connection Error: ' . $e->getMessage());
 
             // Don't show details in production
             if (defined('ENVIRONMENT') && ENVIRONMENT === 'development') {
-                echo "Connection Error: " . $e->getMessage();
+                echo 'Connection Error: ' . $e->getMessage();
             } else {
-                echo "Database connection failed. Please try again later.";
+                echo 'Database connection failed. Please try again later.';
             }
         }
 
@@ -51,32 +53,38 @@ class Database {
     /**
      * Close connection
      */
-    public function closeConnection() {
+    public function closeConnection(): void
+    {
         $this->conn = null;
     }
 }
 
-function getDbConnection() {
+function getDbConnection()
+{
     $database = new Database();
+
     return $database->getConnection();
 }
 
-
 // Check if we can connect
-function testDbConnection() {
+function testDbConnection(): bool
+{
     try {
         $db = getDbConnection();
+
         if ($db) {
             return true;
         }
     } catch (Exception $e) {
-        error_log("Database test failed: " . $e->getMessage());
+        error_log('Database test failed: ' . $e->getMessage());
+
         return false;
     }
+
     return false;
 }
 
-// Uncomment this to test your DB connection
+// test for db connection
 // if (testDbConnection()) {
 //     echo "Database connection successful!";
 // } else {

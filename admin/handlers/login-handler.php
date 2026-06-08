@@ -7,17 +7,26 @@ require_once '../../config/database.php';
 require_once '../../includes/functions.php';
 
 // Enforce HTTPS in production before session starts to avoid issuing cookies over insecure connections.
-function isHttpsRequest(){
-    if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS']!== 'off') return true;
-    if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443) return true;
-    if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https') return true;
+function isHttpsRequest(): bool
+{
+    if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
+        return true;
+    }
+
+    if (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443) {
+        return true;
+    }
+
+    if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https') {
+        return true;
+    }
+
     return false;
 }
 
-if(defined('ENVIRONMENT') && ENVIRONMENT === 'production' && !isHttpsRequest()){
+if (defined('ENVIRONMENT') && ENVIRONMENT === 'production' && !isHttpsRequest()) {
     http_response_code(400);
     exit('HTTPS is required in production');
-
 }
 
 // Configure secure session cookie settings before starting session
@@ -36,7 +45,7 @@ require_once __DIR__ . '/LoginHandler.php';
 
 $db = getDbConnection();
 
-if (!$db){
+if (!$db) {
     header('Location: ' . BASE_URL . '/admin/login.php?error=db');
     exit;
 }

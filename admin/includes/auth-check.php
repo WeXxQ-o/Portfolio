@@ -8,32 +8,39 @@ if (!defined('ADMIN_URL')) {
     require_once __DIR__ . '/../../config/config.php';
 }
 
-function startAdminSessionIfNeeded(){
-    if(session_status() !== PHP_SESSION_ACTIVE){
+function startAdminSessionIfNeeded(): void
+{
+    if (session_status() !== PHP_SESSION_ACTIVE) {
         session_start();
     }
 }
-function isLoggedIn() {
-    startAdminSessionIfNeeded();
 
+function isLoggedIn(): bool
+{
+    startAdminSessionIfNeeded();
 
     return !empty($_SESSION['admin_logged_in']) && !empty($_SESSION['admin_id']);
 }
 
-function isSessionValid() {
+function isSessionValid(): bool
+{
     startAdminSessionIfNeeded();
-    if(!isLoggedIn()){
+
+    if (!isLoggedIn()) {
         return false;
     }
+
     $timeoutSeconds = 3600;
     $now = time();
 
-    if(empty($_SESSION['last_activity'])){
+    if (empty($_SESSION['last_activity'])) {
         $_SESSION['last_activity'] = $now;
     }
-    if(empty($_SESSION['user_agent'])){
+
+    if (empty($_SESSION['user_agent'])) {
         $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'] ?? '';
     }
+
     if (($now - (int)$_SESSION['last_activity']) > $timeoutSeconds) {
         return false;
     }
@@ -47,15 +54,17 @@ function isSessionValid() {
     return true;
 }
 
-function requireAuth() {
-    if(!isSessionValid()){
+function requireAuth(): void
+{
+    if (!isSessionValid()) {
         destroyAdminSession();
-        header('Location: '.ADMIN_URL.'/login.php');
+        header('Location: ' . ADMIN_URL . '/login.php');
         exit;
     }
 }
 
-function getCurrentAdmin() {
+function getCurrentAdmin(): array
+{
     startAdminSessionIfNeeded();
 
     return [
@@ -66,11 +75,12 @@ function getCurrentAdmin() {
     ];
 }
 
-function destroyAdminSession() {
+function destroyAdminSession(): void
+{
     startAdminSessionIfNeeded();
     $_SESSION = [];
 
-    if(ini_get('session.use_cookies')){
+    if (ini_get('session.use_cookies')) {
         $params = session_get_cookie_params();
         setcookie(
             session_name(),
@@ -85,19 +95,24 @@ function destroyAdminSession() {
     session_destroy();
 }
 
-function generateCsrfToken() {
+function generateCsrfToken(): string
+{
     startAdminSessionIfNeeded();
 
-    if (empty($_SESSION['csrf_token'])){
+    if (empty($_SESSION['csrf_token'])) {
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
     }
+
     return $_SESSION['csrf_token'];
 }
 
-function verifyCsrfToken($token) {
+function verifyCsrfToken($token): bool
+{
     startAdminSessionIfNeeded();
-    if(empty($_SESSION['csrf_token']) || !is_string($token)){
+
+    if (empty($_SESSION['csrf_token']) || !is_string($token)) {
         return false;
     }
+
     return hash_equals($_SESSION['csrf_token'], $token);
 }
