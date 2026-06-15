@@ -78,7 +78,7 @@ class LoginHandler
     private function validateInput(): array
     {
         $username = trim($_POST['username'] ?? '');
-        $password = $_POST['password'] ?? '';
+        $password = ['password'] ?? '';
 
         if ($username === '' || $password === '') {
             $this->redirectWithError('empty');
