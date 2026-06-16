@@ -5,10 +5,10 @@
  */
 
 require_once '../config/config.php';
-require_once __DIR__ . '/includes/auth-check.php';
+require_once __DIR__ . '/includes/AuthCheck.php';
 
-requireAuth();
-$current_admin = getCurrentAdmin();
+AuthCheck::requireAuth();
+$current_admin = AuthCheck::getCurrentAdmin();
 $pageTitle = 'Projects';
 
 $allowed_statuses = ['all', 'active', 'inactive', 'draft'];
@@ -43,7 +43,7 @@ $form_data = [
     'order_position' => 0,
 ];
 
-$csrf_token = generateCsrfToken();
+$csrf_token = AuthCheck::generateCsrfToken();
 
 try {
     $db = getDbConnection();
@@ -54,7 +54,7 @@ try {
         $redirect_status = urlencode($status_filter);
         $redirect_page = max(1, $page);
 
-        if (!verifyCsrfToken($token)) {
+        if (!AuthCheck::verifyCsrfToken($token)) {
             header('Location: ' . ADMIN_URL . '/projects.php?status=' . $redirect_status . '&page=' . $redirect_page . '&error=csrf');
             exit;
         }

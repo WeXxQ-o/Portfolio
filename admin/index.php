@@ -5,10 +5,10 @@
  */
 
 require_once '../config/config.php';
-require_once __DIR__ . '/includes/auth-check.php';
+require_once __DIR__ . '/includes/AuthCheck.php';
 
-requireAuth();
-$current_admin = getCurrentAdmin();
+AuthCheck::requireAuth();
+$current_admin = AuthCheck::getCurrentAdmin();
 $pageTitle = 'Dashboard';
 
 $total_messages = 0;

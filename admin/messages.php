@@ -5,10 +5,10 @@
  */
 
 require_once '../config/config.php';
-require_once __DIR__ . '/includes/auth-check.php';
+require_once __DIR__ . '/includes/AuthCheck.php';
 
-requireAuth();
-$current_admin = getCurrentAdmin();
+AuthCheck::requireAuth();
+$current_admin = AuthCheck::getCurrentAdmin();
 $pageTitle = 'Messages';
 
 $allowed_statuses = ['all', 'new', 'read', 'replied', 'archived'];
@@ -27,7 +27,7 @@ $messages = [];
 $total_messages = 0;
 $total_pages = 1;
 $view_message = null;
-$csrf_token = generateCsrfToken();
+$csrf_token = AuthCheck::generateCsrfToken();
 
 try {
     $db = getDbConnection();
@@ -37,7 +37,7 @@ try {
         $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
         $token = $_POST['csrf_token'] ?? '';
 
-        if ($id > 0 && verifyCsrfToken($token)) {
+        if ($id > 0 && AuthCheck::verifyCsrfToken($token)) {
             if ($action === 'mark_read') {
                 $stmt = $db->prepare('UPDATE contact_messages SET status = "read", read_at = NOW() WHERE id = ?');
                 $stmt->execute([$id]);
