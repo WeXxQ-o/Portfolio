@@ -11,38 +11,70 @@ AuthCheck::requireAuth();
 $current_admin = AuthCheck::getCurrentAdmin();
 $pageTitle = 'Messages';
 
-$allowed_statuses = ['all', 'new', 'read', 'replied', 'archived'];
-$status_filter = $_GET['status'] ?? 'all';
-if (!in_array($status_filter, $allowed_statuses, true)) {
-    $status_filter = 'all';
-}
+class AdminMessagesPage
+{
+    private const ALLOWED_STATUSES = ['all', 'new', 'read', 'replied', 'archived'];
+    private const PER_PAGE = 10;
 
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-if ($page < 1) {
-    $page = 1;
-}
+    private PDO $db;
 
-$per_page = 10;
-$messages = [];
-$total_messages = 0;
-$total_pages = 1;
-$view_message = null;
-$csrf_token = AuthCheck::generateCsrfToken();
+    public function __construct(PDO $db)
+    {
+        $this->db = $db;
+    }
 
-try {
-    $db = getDbConnection();
+    public function run(): array
+    {
+        $status_filter = $this->resolveStatusFilter();
+        $page = $this->resolvePage();
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->handlePost($status_filter, $page);
+        }
+
+        $view_message = $this->loadViewMessage();
+        $messages_data = $this->loadMessages($status_filter, $page);
+
+        return [
+            'status_filter' => $status_filter,
+            'page' => $messages_data['page'],
+            'messages' => $messages_data['messages'],
+            'total_messages' => $messages_data['total_messages'],
+            'total_pages' => $messages_data['total_pages'],
+            'view_message' => $view_message,
+            'csrf_token' => AuthCheck::generateCsrfToken(),
+        ];
+    }
+
+    private function resolveStatusFilter(): string
+    {
+        $status_filter = $_GET['status'] ?? 'all';
+
+        if (!in_array($status_filter, self::ALLOWED_STATUSES, true)) {
+            return 'all';
+        }
+
+        return $status_filter;
+    }
+
+    private function resolvePage(): int
+    {
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        return max(1, $page);
+    }
+
+    private function handlePost(string $status_filter, int $page): void
+    {
         $action = $_POST['action'] ?? '';
         $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
         $token = $_POST['csrf_token'] ?? '';
 
         if ($id > 0 && AuthCheck::verifyCsrfToken($token)) {
             if ($action === 'mark_read') {
-                $stmt = $db->prepare('UPDATE contact_messages SET status = "read", read_at = NOW() WHERE id = ?');
+                $stmt = $this->db->prepare("UPDATE contact_messages SET status = 'read', read_at = NOW() WHERE id = ?");
                 $stmt->execute([$id]);
             } elseif ($action === 'delete') {
-                $stmt = $db->prepare('DELETE FROM contact_messages WHERE id = ?');
+                $stmt = $this->db->prepare('DELETE FROM contact_messages WHERE id = ?');
                 $stmt->execute([$id]);
             }
         }
@@ -53,44 +85,86 @@ try {
         exit;
     }
 
-    if (isset($_GET['view']) && ctype_digit((string)$_GET['view'])) {
+    private function loadViewMessage(): ?array
+    {
+        if (!isset($_GET['view']) || !ctype_digit((string)$_GET['view'])) {
+            return null;
+        }
+
         $view_id = (int)$_GET['view'];
-        $viewStmt = $db->prepare('SELECT id, name, email, subject, message, status, created_at FROM contact_messages WHERE id = ? LIMIT 1');
+        $viewStmt = $this->db->prepare('SELECT id, name, email, subject, message, status, created_at FROM contact_messages WHERE id = ? LIMIT 1');
         $viewStmt->execute([$view_id]);
-        $view_message = $viewStmt->fetch() ?: null;
+
+        $message = $viewStmt->fetch();
+        return $message ?: null;
     }
 
-    if ($status_filter === 'all') {
-        $countStmt = $db->query('SELECT COUNT(*) FROM contact_messages');
-        $total_messages = (int)$countStmt->fetchColumn();
-        $total_pages = (int)max(1, ceil($total_messages / $per_page));
-        if ($page > $total_pages) {
-            $page = $total_pages;
-        }
-        $offset = ($page - 1) * $per_page;
+    private function loadMessages(string $status_filter, int $page): array
+    {
+        if ($status_filter === 'all') {
+            $countStmt = $this->db->query('SELECT COUNT(*) FROM contact_messages');
+            $total_messages = (int)$countStmt->fetchColumn();
+            $total_pages = (int)max(1, ceil($total_messages / self::PER_PAGE));
+            if ($page > $total_pages) {
+                $page = $total_pages;
+            }
+            $offset = ($page - 1) * self::PER_PAGE;
 
-        $listStmt = $db->prepare('SELECT id, name, email, subject, message, status, created_at FROM contact_messages ORDER BY created_at DESC LIMIT ? OFFSET ?');
-        $listStmt->bindValue(1, $per_page, PDO::PARAM_INT);
-        $listStmt->bindValue(2, $offset, PDO::PARAM_INT);
-        $listStmt->execute();
-        $messages = $listStmt->fetchAll();
-    } else {
-        $countStmt = $db->prepare('SELECT COUNT(*) FROM contact_messages WHERE status = ?');
+            $listStmt = $this->db->prepare('SELECT id, name, email, subject, message, status, created_at FROM contact_messages ORDER BY created_at DESC LIMIT ? OFFSET ?');
+            $listStmt->bindValue(1, self::PER_PAGE, PDO::PARAM_INT);
+            $listStmt->bindValue(2, $offset, PDO::PARAM_INT);
+            $listStmt->execute();
+
+            return [
+                'messages' => $listStmt->fetchAll(),
+                'total_messages' => $total_messages,
+                'total_pages' => $total_pages,
+                'page' => $page,
+            ];
+        }
+
+        $countStmt = $this->db->prepare('SELECT COUNT(*) FROM contact_messages WHERE status = ?');
         $countStmt->execute([$status_filter]);
         $total_messages = (int)$countStmt->fetchColumn();
-        $total_pages = (int)max(1, ceil($total_messages / $per_page));
+        $total_pages = (int)max(1, ceil($total_messages / self::PER_PAGE));
         if ($page > $total_pages) {
             $page = $total_pages;
         }
-        $offset = ($page - 1) * $per_page;
+        $offset = ($page - 1) * self::PER_PAGE;
 
-        $listStmt = $db->prepare('SELECT id, name, email, subject, message, status, created_at FROM contact_messages WHERE status = ? ORDER BY created_at DESC LIMIT ? OFFSET ?');
+        $listStmt = $this->db->prepare('SELECT id, name, email, subject, message, status, created_at FROM contact_messages WHERE status = ? ORDER BY created_at DESC LIMIT ? OFFSET ?');
         $listStmt->bindValue(1, $status_filter, PDO::PARAM_STR);
-        $listStmt->bindValue(2, $per_page, PDO::PARAM_INT);
+        $listStmt->bindValue(2, self::PER_PAGE, PDO::PARAM_INT);
         $listStmt->bindValue(3, $offset, PDO::PARAM_INT);
         $listStmt->execute();
-        $messages = $listStmt->fetchAll();
+
+        return [
+            'messages' => $listStmt->fetchAll(),
+            'total_messages' => $total_messages,
+            'total_pages' => $total_pages,
+            'page' => $page,
+        ];
     }
+}
+
+$messages = [];
+$total_messages = 0;
+$total_pages = 1;
+$status_filter = 'all';
+$page = 1;
+$view_message = null;
+$csrf_token = AuthCheck::generateCsrfToken();
+
+try {
+    $controller = new AdminMessagesPage(getDbConnection());
+    $result = $controller->run();
+    $messages = $result['messages'];
+    $total_messages = $result['total_messages'];
+    $total_pages = $result['total_pages'];
+    $status_filter = $result['status_filter'];
+    $page = $result['page'];
+    $view_message = $result['view_message'];
+    $csrf_token = $result['csrf_token'];
 } catch (Throwable $e) {
     $messages = [];
     $total_messages = 0;

@@ -11,44 +11,86 @@ AuthCheck::requireAuth();
 $current_admin = AuthCheck::getCurrentAdmin();
 $pageTitle = 'Projects';
 
-$allowed_statuses = ['all', 'active', 'inactive', 'draft'];
-$status_filter = $_GET['status'] ?? 'all';
-if (!in_array($status_filter, $allowed_statuses, true)) {
-    $status_filter = 'all';
-}
+class AdminProjectsPage
+{
+    private const ALLOWED_FILTER_STATUSES = ['all', 'active', 'inactive', 'draft'];
+    private const ALLOWED_PROJECT_STATUSES = ['active', 'inactive', 'draft'];
+    private const PER_PAGE = 10;
 
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-if ($page < 1) {
-    $page = 1;
-}
+    private PDO $db;
 
-$per_page = 10;
-$projects = [];
-$total_projects = 0;
-$total_pages = 1;
-$edit_project = null;
-$errors = [];
+    public function __construct(PDO $db)
+    {
+        $this->db = $db;
+    }
 
-$form_data = [
-    'title' => '',
-    'short_description' => '',
-    'description' => '',
-    'image_url' => '',
-    'demo_url' => '',
-    'github_url' => '',
-    'technologies' => '',
-    'category' => '',
-    'status' => 'active',
-    'featured' => 0,
-    'order_position' => 0,
-];
+    public function run(): array
+    {
+        $status_filter = $this->resolveStatusFilter();
+        $page = $this->resolvePage();
+        $errors = [];
+        $form_data = $this->defaultFormData();
 
-$csrf_token = AuthCheck::generateCsrfToken();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $post_result = $this->handlePost($status_filter, $page);
+            $errors = $post_result['errors'];
+            $form_data = $post_result['form_data'];
+        }
 
-try {
-    $db = getDbConnection();
+        $edit_project = $this->loadEditProject($errors, $form_data);
+        $projects_data = $this->loadProjects($status_filter, $page);
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        return [
+            'status_filter' => $status_filter,
+            'page' => $projects_data['page'],
+            'projects' => $projects_data['projects'],
+            'total_projects' => $projects_data['total_projects'],
+            'total_pages' => $projects_data['total_pages'],
+            'edit_project' => $edit_project,
+            'errors' => $errors,
+            'form_data' => $form_data,
+            'csrf_token' => AuthCheck::generateCsrfToken(),
+        ];
+    }
+
+    private function resolveStatusFilter(): string
+    {
+        $status_filter = $_GET['status'] ?? 'all';
+
+        if (!in_array($status_filter, self::ALLOWED_FILTER_STATUSES, true)) {
+            return 'all';
+        }
+
+        return $status_filter;
+    }
+
+    private function resolvePage(): int
+    {
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        return max(1, $page);
+    }
+
+    private function defaultFormData(): array
+    {
+        return [
+            'title' => '',
+            'short_description' => '',
+            'description' => '',
+            'image_url' => '',
+            'demo_url' => '',
+            'github_url' => '',
+            'technologies' => '',
+            'category' => '',
+            'status' => 'active',
+            'featured' => 0,
+            'order_position' => 0,
+        ];
+    }
+
+    private function handlePost(string $status_filter, int $page): array
+    {
+        $errors = [];
+        $form_data = $this->defaultFormData();
         $action = $_POST['action'] ?? '';
         $token = $_POST['csrf_token'] ?? '';
         $redirect_status = urlencode($status_filter);
@@ -62,7 +104,7 @@ try {
         if ($action === 'delete') {
             $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
             if ($id > 0) {
-                $deleteStmt = $db->prepare('DELETE FROM projects WHERE id = ?');
+                $deleteStmt = $this->db->prepare('DELETE FROM projects WHERE id = ?');
                 $deleteStmt->execute([$id]);
             }
 
@@ -72,7 +114,6 @@ try {
 
         if ($action === 'save') {
             $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
-
             $form_data = [
                 'title' => trim($_POST['title'] ?? ''),
                 'short_description' => trim($_POST['short_description'] ?? ''),
@@ -87,71 +128,83 @@ try {
                 'order_position' => isset($_POST['order_position']) ? (int)$_POST['order_position'] : 0,
             ];
 
-            if (mb_strlen($form_data['title']) < 3 || mb_strlen($form_data['title']) > 200) {
-                $errors[] = 'Title must contain 3-200 characters.';
-            }
-
-            if ($form_data['short_description'] !== '' && mb_strlen($form_data['short_description']) > 255) {
-                $errors[] = 'Short description can have max 255 characters.';
-            }
-
-            if (!in_array($form_data['status'], ['active', 'inactive', 'draft'], true)) {
-                $errors[] = 'Invalid status selected.';
-            }
-
-            $url_fields = ['image_url', 'demo_url', 'github_url'];
-            foreach ($url_fields as $field) {
-                if ($form_data[$field] !== '' && !filter_var($form_data[$field], FILTER_VALIDATE_URL)) {
-                    $errors[] = ucfirst(str_replace('_', ' ', $field)) . ' is not a valid URL.';
-                }
-            }
+            $errors = $this->validateProjectData($form_data);
 
             if (empty($errors)) {
-                if ($id > 0) {
-                    $updateStmt = $db->prepare('UPDATE projects SET title = ?, short_description = ?, description = ?, image_url = ?, demo_url = ?, github_url = ?, technologies = ?, category = ?, status = ?, featured = ?, order_position = ? WHERE id = ?');
-                    $updateStmt->execute([
-                        $form_data['title'],
-                        $form_data['short_description'] !== '' ? $form_data['short_description'] : null,
-                        $form_data['description'] !== '' ? $form_data['description'] : null,
-                        $form_data['image_url'] !== '' ? $form_data['image_url'] : null,
-                        $form_data['demo_url'] !== '' ? $form_data['demo_url'] : null,
-                        $form_data['github_url'] !== '' ? $form_data['github_url'] : null,
-                        $form_data['technologies'] !== '' ? $form_data['technologies'] : null,
-                        $form_data['category'] !== '' ? $form_data['category'] : null,
-                        $form_data['status'],
-                        $form_data['featured'],
-                        $form_data['order_position'],
-                        $id,
-                    ]);
-
-                    header('Location: ' . ADMIN_URL . '/projects.php?status=' . $redirect_status . '&page=' . $redirect_page . '&success=updated');
-                    exit;
-                }
-
-                $insertStmt = $db->prepare('INSERT INTO projects (title, short_description, description, image_url, demo_url, github_url, technologies, category, status, featured, order_position) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
-                $insertStmt->execute([
-                    $form_data['title'],
-                    $form_data['short_description'] !== '' ? $form_data['short_description'] : null,
-                    $form_data['description'] !== '' ? $form_data['description'] : null,
-                    $form_data['image_url'] !== '' ? $form_data['image_url'] : null,
-                    $form_data['demo_url'] !== '' ? $form_data['demo_url'] : null,
-                    $form_data['github_url'] !== '' ? $form_data['github_url'] : null,
-                    $form_data['technologies'] !== '' ? $form_data['technologies'] : null,
-                    $form_data['category'] !== '' ? $form_data['category'] : null,
-                    $form_data['status'],
-                    $form_data['featured'],
-                    $form_data['order_position'],
-                ]);
-
-                header('Location: ' . ADMIN_URL . '/projects.php?status=' . $redirect_status . '&page=' . $redirect_page . '&success=created');
+                $this->saveProject($id, $form_data);
+                $success = $id > 0 ? 'updated' : 'created';
+                header('Location: ' . ADMIN_URL . '/projects.php?status=' . $redirect_status . '&page=' . $redirect_page . '&success=' . $success);
                 exit;
             }
         }
+
+        return [
+            'errors' => $errors,
+            'form_data' => $form_data,
+        ];
     }
 
-    if (isset($_GET['edit']) && ctype_digit((string)$_GET['edit'])) {
+    private function validateProjectData(array $form_data): array
+    {
+        $errors = [];
+
+        if (mb_strlen($form_data['title']) < 3 || mb_strlen($form_data['title']) > 200) {
+            $errors[] = 'Title must contain 3-200 characters.';
+        }
+
+        if ($form_data['short_description'] !== '' && mb_strlen($form_data['short_description']) > 255) {
+            $errors[] = 'Short description can have max 255 characters.';
+        }
+
+        if (!in_array($form_data['status'], self::ALLOWED_PROJECT_STATUSES, true)) {
+            $errors[] = 'Invalid status selected.';
+        }
+
+        $url_fields = ['image_url', 'demo_url', 'github_url'];
+        foreach ($url_fields as $field) {
+            if ($form_data[$field] !== '' && !filter_var($form_data[$field], FILTER_VALIDATE_URL)) {
+                $errors[] = ucfirst(str_replace('_', ' ', $field)) . ' is not a valid URL.';
+            }
+        }
+
+        return $errors;
+    }
+
+    private function saveProject(int $id, array $form_data): void
+    {
+        $params = [
+            $form_data['title'],
+            $form_data['short_description'] !== '' ? $form_data['short_description'] : null,
+            $form_data['description'] !== '' ? $form_data['description'] : null,
+            $form_data['image_url'] !== '' ? $form_data['image_url'] : null,
+            $form_data['demo_url'] !== '' ? $form_data['demo_url'] : null,
+            $form_data['github_url'] !== '' ? $form_data['github_url'] : null,
+            $form_data['technologies'] !== '' ? $form_data['technologies'] : null,
+            $form_data['category'] !== '' ? $form_data['category'] : null,
+            $form_data['status'],
+            $form_data['featured'],
+            $form_data['order_position'],
+        ];
+
+        if ($id > 0) {
+            $updateStmt = $this->db->prepare('UPDATE projects SET title = ?, short_description = ?, description = ?, image_url = ?, demo_url = ?, github_url = ?, technologies = ?, category = ?, status = ?, featured = ?, order_position = ? WHERE id = ?');
+            $params[] = $id;
+            $updateStmt->execute($params);
+            return;
+        }
+
+        $insertStmt = $this->db->prepare('INSERT INTO projects (title, short_description, description, image_url, demo_url, github_url, technologies, category, status, featured, order_position) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+        $insertStmt->execute($params);
+    }
+
+    private function loadEditProject(array $errors, array &$form_data): ?array
+    {
+        if (!isset($_GET['edit']) || !ctype_digit((string)$_GET['edit'])) {
+            return null;
+        }
+
         $edit_id = (int)$_GET['edit'];
-        $editStmt = $db->prepare('SELECT * FROM projects WHERE id = ? LIMIT 1');
+        $editStmt = $this->db->prepare('SELECT * FROM projects WHERE id = ? LIMIT 1');
         $editStmt->execute([$edit_id]);
         $edit_project = $editStmt->fetch() ?: null;
 
@@ -170,39 +223,92 @@ try {
                 'order_position' => (int)($edit_project['order_position'] ?? 0),
             ];
         }
+
+        return $edit_project;
     }
 
-    if ($status_filter === 'all') {
-        $countStmt = $db->query('SELECT COUNT(*) FROM projects');
-        $total_projects = (int)$countStmt->fetchColumn();
-        $total_pages = (int)max(1, ceil($total_projects / $per_page));
-        if ($page > $total_pages) {
-            $page = $total_pages;
-        }
-        $offset = ($page - 1) * $per_page;
+    private function loadProjects(string $status_filter, int $page): array
+    {
+        if ($status_filter === 'all') {
+            $countStmt = $this->db->query('SELECT COUNT(*) FROM projects');
+            $total_projects = (int)$countStmt->fetchColumn();
+            $total_pages = (int)max(1, ceil($total_projects / self::PER_PAGE));
+            if ($page > $total_pages) {
+                $page = $total_pages;
+            }
+            $offset = ($page - 1) * self::PER_PAGE;
 
-        $listStmt = $db->prepare('SELECT id, title, category, technologies, status, featured, order_position, created_at, updated_at FROM projects ORDER BY order_position, created_at DESC LIMIT ? OFFSET ?');
-        $listStmt->bindValue(1, $per_page, PDO::PARAM_INT);
-        $listStmt->bindValue(2, $offset, PDO::PARAM_INT);
-        $listStmt->execute();
-        $projects = $listStmt->fetchAll();
-    } else {
-        $countStmt = $db->prepare('SELECT COUNT(*) FROM projects WHERE status = ?');
+            $listStmt = $this->db->prepare('SELECT id, title, category, technologies, status, featured, order_position, created_at, updated_at FROM projects ORDER BY order_position, created_at DESC LIMIT ? OFFSET ?');
+            $listStmt->bindValue(1, self::PER_PAGE, PDO::PARAM_INT);
+            $listStmt->bindValue(2, $offset, PDO::PARAM_INT);
+            $listStmt->execute();
+
+            return [
+                'projects' => $listStmt->fetchAll(),
+                'total_projects' => $total_projects,
+                'total_pages' => $total_pages,
+                'page' => $page,
+            ];
+        }
+
+        $countStmt = $this->db->prepare('SELECT COUNT(*) FROM projects WHERE status = ?');
         $countStmt->execute([$status_filter]);
         $total_projects = (int)$countStmt->fetchColumn();
-        $total_pages = (int)max(1, ceil($total_projects / $per_page));
+        $total_pages = (int)max(1, ceil($total_projects / self::PER_PAGE));
         if ($page > $total_pages) {
             $page = $total_pages;
         }
-        $offset = ($page - 1) * $per_page;
+        $offset = ($page - 1) * self::PER_PAGE;
 
-        $listStmt = $db->prepare('SELECT id, title, category, technologies, status, featured, order_position, created_at, updated_at FROM projects WHERE status = ? ORDER BY order_position, created_at DESC LIMIT ? OFFSET ?');
+        $listStmt = $this->db->prepare('SELECT id, title, category, technologies, status, featured, order_position, created_at, updated_at FROM projects WHERE status = ? ORDER BY order_position, created_at DESC LIMIT ? OFFSET ?');
         $listStmt->bindValue(1, $status_filter, PDO::PARAM_STR);
-        $listStmt->bindValue(2, $per_page, PDO::PARAM_INT);
+        $listStmt->bindValue(2, self::PER_PAGE, PDO::PARAM_INT);
         $listStmt->bindValue(3, $offset, PDO::PARAM_INT);
         $listStmt->execute();
-        $projects = $listStmt->fetchAll();
+
+        return [
+            'projects' => $listStmt->fetchAll(),
+            'total_projects' => $total_projects,
+            'total_pages' => $total_pages,
+            'page' => $page,
+        ];
     }
+}
+
+$status_filter = 'all';
+$page = 1;
+$projects = [];
+$total_projects = 0;
+$total_pages = 1;
+$edit_project = null;
+$errors = [];
+$form_data = [
+    'title' => '',
+    'short_description' => '',
+    'description' => '',
+    'image_url' => '',
+    'demo_url' => '',
+    'github_url' => '',
+    'technologies' => '',
+    'category' => '',
+    'status' => 'active',
+    'featured' => 0,
+    'order_position' => 0,
+];
+$csrf_token = AuthCheck::generateCsrfToken();
+
+try {
+    $controller = new AdminProjectsPage(getDbConnection());
+    $result = $controller->run();
+    $status_filter = $result['status_filter'];
+    $page = $result['page'];
+    $projects = $result['projects'];
+    $total_projects = $result['total_projects'];
+    $total_pages = $result['total_pages'];
+    $edit_project = $result['edit_project'];
+    $errors = $result['errors'];
+    $form_data = $result['form_data'];
+    $csrf_token = $result['csrf_token'];
 } catch (Throwable $e) {
     $projects = [];
     $total_projects = 0;
